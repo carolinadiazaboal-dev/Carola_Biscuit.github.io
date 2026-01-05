@@ -179,53 +179,55 @@ document.getElementById('tipoFunko').addEventListener('change', () => {
 });
 
 // Manejar cambios en el tipo de entrega (recogida o domicilio)
-const tipoEntregaRadios = document.querySelectorAll('input[name="tipoEntrega"]');
-tipoEntregaRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-        const seccionDireccion = document.getElementById('seccionDireccion');
-        const inputDireccion = document.getElementById('direccionDomicilio');
-        
-        if (this.value === 'domicilio') {
-            seccionDireccion.style.display = 'block';
-            inputDireccion.focus();
-        } else {
-            seccionDireccion.style.display = 'none';
-            inputDireccion.value = '';
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    const tipoEntregaRadios = document.querySelectorAll('input[name="tipoEntrega"]');
+    tipoEntregaRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const seccionDireccion = document.getElementById('seccionDireccion');
+            const inputDireccion = document.getElementById('direccionDomicilio');
+            
+            if (this.value === 'domicilio') {
+                seccionDireccion.style.display = 'block';
+                inputDireccion.focus();
+            } else {
+                seccionDireccion.style.display = 'none';
+                inputDireccion.value = '';
+            }
+        });
     });
-});
 
-// Manejar cambios en el selector de color de ojos (mostrar campo personalizado)
-const colorOjosRadios = document.querySelectorAll('input[name="colorOjos"]');
-colorOjosRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-        const seccionOjoPersonalizado = document.getElementById('seccionOjoPersonalizado');
-        const inputOjoPersonalizado = document.getElementById('ojoPersonalizadoTexto');
-        
-        if (this.value === 'personalizado') {
-            seccionOjoPersonalizado.style.display = 'block';
-            inputOjoPersonalizado.focus();
-        } else {
-            seccionOjoPersonalizado.style.display = 'none';
-            inputOjoPersonalizado.value = '';
-        }
+    // Manejar cambios en el selector de color de ojos (mostrar campo personalizado)
+    const colorOjosRadios = document.querySelectorAll('input[name="colorOjos"]');
+    colorOjosRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const seccionOjoPersonalizado = document.getElementById('seccionOjoPersonalizado');
+            const inputOjoPersonalizado = document.getElementById('ojoPersonalizadoTexto');
+            
+            if (this.value === 'personalizado') {
+                seccionOjoPersonalizado.style.display = 'block';
+                inputOjoPersonalizado.focus();
+            } else {
+                seccionOjoPersonalizado.style.display = 'none';
+                inputOjoPersonalizado.value = '';
+            }
+        });
     });
-});
 
-// Manejar cambios en el selector de color de piel (mostrar campo personalizado)
-const colorPielRadios = document.querySelectorAll('input[name="colorPiel"]');
-colorPielRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-        const seccionPielPersonalizada = document.getElementById('seccionPielPersonalizada');
-        const inputPielPersonalizada = document.getElementById('pielPersonalizadaTexto');
-        
-        if (this.value === 'personalizado') {
-            seccionPielPersonalizada.style.display = 'block';
-            inputPielPersonalizada.focus();
-        } else {
-            seccionPielPersonalizada.style.display = 'none';
-            inputPielPersonalizada.value = '';
-        }
+    // Manejar cambios en el selector de color de piel (mostrar campo personalizado)
+    const colorPielRadios = document.querySelectorAll('input[name="colorPiel"]');
+    colorPielRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const seccionPielPersonalizada = document.getElementById('seccionPielPersonalizada');
+            const inputPielPersonalizada = document.getElementById('pielPersonalizadaTexto');
+            
+            if (this.value === 'personalizado') {
+                seccionPielPersonalizada.style.display = 'block';
+                inputPielPersonalizada.focus();
+            } else {
+                seccionPielPersonalizada.style.display = 'none';
+                inputPielPersonalizada.value = '';
+            }
+        });
     });
 });
 
