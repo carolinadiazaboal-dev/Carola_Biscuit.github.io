@@ -154,8 +154,9 @@ class WhatsAppIntegration {
         mensaje += `\n`;
 
         mensaje += `*NOTA IMPORTANTE*\n`;
-        mensaje += `Si algun detalle no se menciona en este formulario, sera realizado con mi creatividad y estilo artistico.\n`;
-        mensaje += `Cambios posteriores solo se haran si hubo un error respecto a lo indicado en este formulario.\n`;
+        mensaje += `Todos los detalles del Funko deben ser indicados en este formulario. Los detalles que no se especifiquen al momento de realizar el pedido no podrán modificarse una vez finalizada la pieza.\n`;
+        mensaje += `\n`;
+        mensaje += `Una vez recibida toda la información, se enviará la cotización total en USD junto con los detalles del proceso de pago para iniciar tu pedido.\n`;
         mensaje += `\n`;
 
         mensaje += `En breve estaremos atendiendo su solicitud para continuar con el proceso de su pedido.\n`;
