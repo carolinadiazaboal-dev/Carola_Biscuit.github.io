@@ -21,7 +21,7 @@ class FormHandler {
             nombreCaja: document.getElementById('nombreCaja'),
             fechaEntrega: document.getElementById('fechaEntrega'),
             tipoPedido: document.querySelector('input[name="tipoPedido"]:checked'),
-            domicilioCheckbox: document.getElementById('domicilioCheckbox'),
+            tipoEntrega: document.querySelector('input[name="tipoEntrega"]:checked'),
             direccionDomicilio: document.getElementById('direccionDomicilio'),
             vestuario: document.getElementById('vestuario'),
             colorCabello: document.getElementById('colorCabello'),
@@ -83,6 +83,9 @@ class FormHandler {
         const tipoPedidoSeleccionado = document.querySelector('input[name="tipoPedido"]:checked');
         let tipoPedido = tipoPedidoSeleccionado ? tipoPedidoSeleccionado.value : 'regular';
         
+        const tipoEntregaSeleccionado = document.querySelector('input[name="tipoEntrega"]:checked');
+        let tipoEntrega = tipoEntregaSeleccionado ? tipoEntregaSeleccionado.value : 'recogida';
+        
         return {
             tipoFunko: this.campos.tipoFunko.value,
             nombrePersonaje: this.campos.nombrePersonaje.value.trim(),
@@ -93,7 +96,9 @@ class FormHandler {
             fechaEntrega: this.campos.fechaEntrega.value,
             tipoPedido: tipoPedido,
             esExpres: tipoPedido === 'expres',
-            tieneDomicilio: this.campos.domicilioCheckbox.checked,
+            tipoEntrega: tipoEntrega,
+            esDomicilio: tipoEntrega === 'domicilio',
+            esRecogida: tipoEntrega === 'recogida',
             direccionDomicilio: this.campos.direccionDomicilio.value.trim(),
             vestuario: this.campos.vestuario.value.trim(),
             colorCabello: this.campos.colorCabello.value.trim(),
@@ -173,18 +178,21 @@ document.getElementById('tipoFunko').addEventListener('change', () => {
     formHandler.mostrarOcultarCamposCondicionales();
 });
 
-// Manejar cambios en el checkbox de domicilio
-document.getElementById('domicilioCheckbox').addEventListener('change', function() {
-    const seccionDireccion = document.getElementById('seccionDireccion');
-    const inputDireccion = document.getElementById('direccionDomicilio');
-    
-    if (this.checked) {
-        seccionDireccion.style.display = 'block';
-        inputDireccion.focus();
-    } else {
-        seccionDireccion.style.display = 'none';
-        inputDireccion.value = '';
-    }
+// Manejar cambios en el tipo de entrega (recogida o domicilio)
+const tipoEntregaRadios = document.querySelectorAll('input[name="tipoEntrega"]');
+tipoEntregaRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        const seccionDireccion = document.getElementById('seccionDireccion');
+        const inputDireccion = document.getElementById('direccionDomicilio');
+        
+        if (this.value === 'domicilio') {
+            seccionDireccion.style.display = 'block';
+            inputDireccion.focus();
+        } else {
+            seccionDireccion.style.display = 'none';
+            inputDireccion.value = '';
+        }
+    });
 });
 
 // Manejar cambios en el selector de color de ojos (mostrar campo personalizado)

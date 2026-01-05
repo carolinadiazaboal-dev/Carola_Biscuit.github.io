@@ -214,13 +214,18 @@
                 </div>
             </fieldset>
 
-            <!-- Sección 7.5: Servicio a Domicilio -->
+            <!-- Sección 7.5: Entrega del Pedido -->
             <fieldset class="seccion">
-                <legend>🚚 Servicio a Domicilio</legend>
+                <legend>🚚 Entrega del Pedido</legend>
 
                 <div class="form-group checkbox">
-                    <input type="checkbox" id="domicilioCheckbox" name="domicilioCheckbox">
-                    <label for="domicilioCheckbox"><strong>Deseo servicio a domicilio</strong> - Proporciona tu dirección</label>
+                    <input type="radio" id="entregaRecogida" name="tipoEntrega" value="recogida" checked>
+                    <label for="entregaRecogida"><strong>🏪 Recogida en nuestra ubicación</strong>  Sin costo adicional</label>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="radio" id="entregaDomicilio" name="tipoEntrega" value="domicilio">
+                    <label for="entregaDomicilio"><strong>🚚 Servicio a domicilio</strong> Proporciona tu dirección</label>
                 </div>
 
                 <div class="form-group" id="seccionDireccion" style="display: none;">

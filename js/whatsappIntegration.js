@@ -49,11 +49,15 @@ class WhatsAppIntegration {
         }
         mensaje += `\n`;
 
-        if (datos.tieneDomicilio) {
-            mensaje += `*SERVICIO A DOMICILIO*\n`;
-            mensaje += `${datos.direccionDomicilio}\n`;
-            mensaje += `\n`;
+        // Tipo de entrega
+        mensaje += `*ENTREGA DEL PEDIDO*\n`;
+        if (datos.esDomicilio) {
+            mensaje += `🚚 Servicio a Domicilio\n`;
+            mensaje += `Dirección: ${datos.direccionDomicilio}\n`;
+        } else {
+            mensaje += `🏪 Recogida en nuestra ubicación\n`;
         }
+        mensaje += `\n`;
 
         // Lógica para pareja-detalles
         if (datos.esParejadetalles) {
