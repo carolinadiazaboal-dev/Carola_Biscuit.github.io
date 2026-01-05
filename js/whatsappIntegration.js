@@ -96,9 +96,9 @@ class WhatsAppIntegration {
         mensaje += `Cambios posteriores solo se haran si hubo un error respecto a lo indicado en este formulario.\n`;
         mensaje += `\n`;
 
-        mensaje += `¡Gracias por tu confianza!\n`;
+        mensaje += `En breve estaremos atendiendo su solicitud para continuar con el proceso de su pedido.\n`;
         mensaje += `\n`;
-        mensaje += `*Por favor espere ser atendido*`;
+        mensaje += `¡Muchas gracias por su confianza!💗`;
 
         return mensaje;
     }
