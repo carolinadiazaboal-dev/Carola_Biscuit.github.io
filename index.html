@@ -103,22 +103,6 @@
                 </div>
             </fieldset>
 
-            <!-- Sección 2.5: Servicio a Domicilio -->
-            <fieldset class="seccion">
-                <legend>🚚 Servicio a Domicilio</legend>
-
-                <div class="form-group checkbox">
-                    <input type="checkbox" id="domicilioCheckbox" name="domicilioCheckbox">
-                    <label for="domicilioCheckbox"><strong>Deseo servicio a domicilio</strong> - Proporciona tu dirección</label>
-                </div>
-
-                <div class="form-group" id="seccionDireccion" style="display: none;">
-                    <label for="direccionDomicilio">Dirección de entrega *</label>
-                    <textarea id="direccionDomicilio" name="direccionDomicilio" rows="3" placeholder="Calle, número, apartamento, zona&#10;Ej: Calle Principal 123, apartamento 4B, zona 12..."></textarea>
-                    <small>Confirmaremos disponibilidad y costo del envío</small>
-                </div>
-            </fieldset>
-
             <!-- Sección 3: Vestuario -->
             <fieldset class="seccion">
                 <legend>👗 Vestuario</legend>
@@ -126,6 +110,16 @@
                 <div class="form-group">
                     <label for="vestuario">Descripción completa de la ropa que desee que lleve su funko pop (colores, tipo de prenda, accesorios del vestuario, etc.) *</label>
                     <textarea id="vestuario" name="vestuario" rows="4" required placeholder="Describe detalladamente cada prenda, colores, accesorios de vestuario&#10;Ej: Camiseta blanca, pantalón azul oscuro, cinturón negro..."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 3.5: Accesorios -->
+            <fieldset class="seccion">
+                <legend>🌸 Accesorios</legend>
+
+                <div class="form-group">
+                    <label for="accesorios">¿Quieres incluir accesorios? (gafas, gorro, cadenas, flores, etc.)</label>
+                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..."></textarea>
                 </div>
             </fieldset>
 
@@ -207,16 +201,6 @@
                 </div>
             </fieldset>
 
-            <!-- Sección 6: Accesorios -->
-            <fieldset class="seccion">
-                <legend>🌸 Accesorios</legend>
-
-                <div class="form-group">
-                    <label for="accesorios">¿Quieres incluir accesorios? (gafas, gorro, cadenas, flores, etc.)</label>
-                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..."></textarea>
-                </div>
-            </fieldset>
-
             <!-- Sección 7: Detalles Adicionales (Solo para opciones con +DETALLES y Personaje) -->
             <fieldset class="seccion" id="seccionDetalles" style="display: none;">
                 <legend>🎁 Detalles Adicionales</legend>
@@ -224,6 +208,22 @@
                 <div class="form-group">
                     <label for="detallesAdicionales">Algún detalle especial que quieras agregar (objeto en mano, pose, tatuaje, etc.)</label>
                     <textarea id="detallesAdicionales" name="detallesAdicionales" rows="3" placeholder="Describa detalles especiales como tatuajes, objetos, pose especial, etc."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 7.5: Servicio a Domicilio -->
+            <fieldset class="seccion">
+                <legend>🚚 Servicio a Domicilio</legend>
+
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="domicilioCheckbox" name="domicilioCheckbox">
+                    <label for="domicilioCheckbox"><strong>Deseo servicio a domicilio</strong> - Proporciona tu dirección</label>
+                </div>
+
+                <div class="form-group" id="seccionDireccion" style="display: none;">
+                    <label for="direccionDomicilio">Dirección de entrega *</label>
+                    <textarea id="direccionDomicilio" name="direccionDomicilio" rows="3" placeholder="Calle, número, apartamento, zona&#10;Ej: Calle Principal 123, apartamento 4B, zona 12..."></textarea>
+                    <small>Confirmaremos disponibilidad y costo del envío</small>
                 </div>
             </fieldset>
 
