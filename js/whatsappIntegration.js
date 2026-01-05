@@ -55,30 +55,88 @@ class WhatsAppIntegration {
             mensaje += `\n`;
         }
 
-        mensaje += `*VESTUARIO*\n`;
-        mensaje += `${datos.vestuario}\n`;
-        mensaje += `\n`;
-
-        mensaje += `*CABELLO*\n`;
-        mensaje += `${datos.colorCabello}\n`;
-        mensaje += `\n`;
-
-        if (datos.colorPiel) {
-            mensaje += `*COLOR DE LA PIEL*\n`;
-            mensaje += `${datos.colorPiel}\n`;
+        // Lógica para pareja-detalles
+        if (datos.esParejadetalles) {
+            // Persona 1
+            mensaje += `*VESTUARIO - PERSONA 1*\n`;
+            mensaje += `${datos.vestuarioPersona1}\n`;
             mensaje += `\n`;
-        }
 
-        if (datos.colorOjos) {
-            mensaje += `*COLOR DE OJOS*\n`;
-            mensaje += `${datos.colorOjos}\n`;
+            mensaje += `*CABELLO - PERSONA 1*\n`;
+            mensaje += `${datos.colorCabelloPersona1}\n`;
             mensaje += `\n`;
-        }
 
-        if (datos.accesorios) {
-            mensaje += `*ACCESORIOS*\n`;
-            mensaje += `${datos.accesorios}\n`;
+            if (datos.accesoriosPersona1) {
+                mensaje += `*ACCESORIOS - PERSONA 1*\n`;
+                mensaje += `${datos.accesoriosPersona1}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorPielPersona1) {
+                mensaje += `*COLOR DE LA PIEL - PERSONA 1*\n`;
+                mensaje += `${datos.colorPielPersona1}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorOjosPersona1) {
+                mensaje += `*COLOR DE OJOS - PERSONA 1*\n`;
+                mensaje += `${datos.colorOjosPersona1}\n`;
+                mensaje += `\n`;
+            }
+
+            // Persona 2
+            mensaje += `*VESTUARIO - PERSONA 2*\n`;
+            mensaje += `${datos.vestuarioPersona2}\n`;
             mensaje += `\n`;
+
+            mensaje += `*CABELLO - PERSONA 2*\n`;
+            mensaje += `${datos.colorCabelloPersona2}\n`;
+            mensaje += `\n`;
+
+            if (datos.accesoriosPersona2) {
+                mensaje += `*ACCESORIOS - PERSONA 2*\n`;
+                mensaje += `${datos.accesoriosPersona2}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorPielPersona2) {
+                mensaje += `*COLOR DE LA PIEL - PERSONA 2*\n`;
+                mensaje += `${datos.colorPielPersona2}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorOjosPersona2) {
+                mensaje += `*COLOR DE OJOS - PERSONA 2*\n`;
+                mensaje += `${datos.colorOjosPersona2}\n`;
+                mensaje += `\n`;
+            }
+        } else {
+            // Campos simples (para personalizado y pareja)
+            mensaje += `*VESTUARIO*\n`;
+            mensaje += `${datos.vestuario}\n`;
+            mensaje += `\n`;
+
+            mensaje += `*CABELLO*\n`;
+            mensaje += `${datos.colorCabello}\n`;
+            mensaje += `\n`;
+
+            if (datos.accesorios) {
+                mensaje += `*ACCESORIOS*\n`;
+                mensaje += `${datos.accesorios}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorPiel) {
+                mensaje += `*COLOR DE LA PIEL*\n`;
+                mensaje += `${datos.colorPiel}\n`;
+                mensaje += `\n`;
+            }
+
+            if (datos.colorOjos) {
+                mensaje += `*COLOR DE OJOS*\n`;
+                mensaje += `${datos.colorOjos}\n`;
+                mensaje += `\n`;
+            }
         }
 
         if (datos.detallesAdicionales) {

@@ -121,6 +121,14 @@ class FormHandler {
         const seccionDetalles = document.getElementById('seccionDetalles');
         const seccionColorPiel = document.getElementById('seccionColorPiel');
         const campoNombre = this.campos.nombre;
+        const avisoPareja = document.getElementById('avisoPareja');
+
+        // Mostrar/ocultar aviso de pareja
+        if (tipoFunko === 'pareja' || tipoFunko === 'pareja-detalles') {
+            avisoPareja.style.display = 'block';
+        } else {
+            avisoPareja.style.display = 'none';
+        }
 
         // Mostrar/ocultar sección de personaje
         if (tipoFunko === 'personaje') {
