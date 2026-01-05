@@ -24,7 +24,6 @@ class FormHandler {
             domicilio: document.getElementById('domicilio'),
             vestuario: document.getElementById('vestuario'),
             colorCabello: document.getElementById('colorCabello'),
-            detallesCabello: document.getElementById('detallesCabello'),
             colorOjos: document.getElementById('colorOjos'),
             accesorios: document.getElementById('accesorios'),
             detallesAdicionales: document.getElementById('detallesAdicionales')
@@ -83,7 +82,6 @@ class FormHandler {
             domicilio: this.campos.domicilio.value.trim(),
             vestuario: this.campos.vestuario.value.trim(),
             colorCabello: this.campos.colorCabello.value.trim(),
-            detallesCabello: this.campos.detallesCabello.value.trim(),
             colorOjos: this.campos.colorOjos.value.trim(),
             accesorios: this.campos.accesorios.value.trim(),
             detallesAdicionales: this.campos.detallesAdicionales.value.trim()

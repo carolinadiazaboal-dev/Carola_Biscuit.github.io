@@ -58,10 +58,7 @@ class WhatsAppIntegration {
         mensaje += `\n`;
 
         mensaje += `*CABELLO*\n`;
-        mensaje += `Color y largo: ${datos.colorCabello}\n`;
-        if (datos.detallesCabello) {
-            mensaje += `Detalles: ${datos.detallesCabello}\n`;
-        }
+        mensaje += `${datos.colorCabello}\n`;
         mensaje += `\n`;
 
         if (datos.colorOjos) {
@@ -85,12 +82,7 @@ class WhatsAppIntegration {
         mensaje += `*FOTOGRAFÍA PARA LA CAJA*\n`;
         mensaje += `Por favor, envía una foto en buena calidad para la personalización de la caja del Funko Pop.\n`;
         mensaje += `\n`;
-
-        mensaje += `*PROXIMOS PASOS*\n`;
-        mensaje += `1. Se enviara cotizacion en USD\n`;
-        mensaje += `2. Pago anticipado: $${CONFIG.PEDIDOS.deposito} USD\n`;
-        mensaje += `3. Saldo en entrega\n`;
-        mensaje += `\n`;
+       
 
         mensaje += `*NOTA IMPORTANTE*\n`;
         mensaje += `Si algun detalle no se menciona en este formulario, sera realizado con mi creatividad y estilo artistico.\n`;
