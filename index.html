@@ -32,11 +32,11 @@
                     <label for="tipoFunko">¿Qué tipo de Funko deseas? *</label>
                     <select id="tipoFunko" name="tipoFunko" required>
                         <option value="">-- Selecciona una opción --</option>
-                        <option value="personalizado">👤 Funko Personalizado</option>
-                        <option value="personalizado-detalles">✨ Funko Personalizado + DETALLES</option>
-                        <option value="pareja">💑 Funko Pareja Personalizadas</option>
-                        <option value="pareja-detalles">💑✨ Funko Pareja Personalizadas + DETALLES</option>
-                        <option value="personaje">🎬 Funko de Personaje</option>
+                        <option value="personalizado">💗 Funko Personalizado SIMPLE</option>
+                        <option value="personalizado-detalles">🧜🏻‍♀ Funko Personalizado + DETALLES</option>
+                        <option value="pareja">👩🏻‍❤‍👨🏼 Funko Pareja Personalizadas</option>
+                        <option value="pareja-detalles">👩🏻‍❤‍👨🏼 Funko Pareja Personalizadas + DETALLES</option>
+                        <option value="personaje">🧚🏻‍♀ Funko de Personaje</option>
                     </select>
                 </div>
             </fieldset>
@@ -56,8 +56,8 @@
                 <legend>👤 Datos del Cliente</legend>
                 
                 <div class="form-group">
-                    <label for="nombre">✍🏻 Nombre de la persona que desea recrear *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la persona">
+                    <label for="nombre">✍🏻 Nombre del Cliente *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente">
                 </div>
 
                 <div class="form-group">
@@ -89,12 +89,17 @@
                 <div class="form-group">
                     <label for="fechaEntrega">📅 ¿Cuándo necesitas tu Funko? *</label>
                     <input type="date" id="fechaEntrega" name="fechaEntrega" required>
-                    <small id="textoFecha">Mínimo 30 días desde hoy</small>
+                    <small id="textoFecha">Selecciona el tipo de pedido para ver el mínimo de días</small>
                 </div>
 
                 <div class="form-group checkbox">
-                    <input type="checkbox" id="expres" name="expres">
-                    <label for="expres"><strong>⚡ Pedido Exprés</strong> - Mínimo 15 días (+15 USD)</label>
+                    <input type="radio" id="regular" name="tipoPedido" value="regular" checked>
+                    <label for="regular"><strong>📦 Pedido Regular</strong> - Mínimo 30 días desde hoy (0 USD)</label>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="radio" id="expres" name="tipoPedido" value="expres">
+                    <label for="expres"><strong>⚡ Pedido Exprés</strong> - Mínimo 15 días desde hoy (+15 USD)</label>
                 </div>
             </fieldset>
 
@@ -135,13 +140,70 @@
                 </div>
             </fieldset>
 
+            <!-- Sección 4.5: Color de la Piel (No para personajes) -->
+            <fieldset class="seccion" id="seccionColorPiel" style="display: none;">
+                <legend>🌫️ Color de la Piel</legend>
+
+                <div class="form-group">
+                    <label>Selecciona el color de la piel</label>
+                    <div class="color-palette">
+                        <input type="radio" id="piel1" name="colorPiel" value="Blanco" style="display: none;">
+                        <label for="piel1" class="color-option" style="background-color: #FDBCB4;" title="Blanco"></label>
+
+                        <input type="radio" id="piel2" name="colorPiel" value="Trigueño" style="display: none;">
+                        <label for="piel2" class="color-option" style="background-color: #D4A574;" title="Trigueño"></label>
+
+                        <input type="radio" id="piel3" name="colorPiel" value="Mulato" style="display: none;">
+                        <label for="piel3" class="color-option" style="background-color: #A0826D;" title="Mulato"></label>
+
+                        <input type="radio" id="piel4" name="colorPiel" value="Moreno" style="display: none;">
+                        <label for="piel4" class="color-option" style="background-color: #6D4C41;" title="Moreno"></label>
+
+                        <input type="radio" id="piel5" name="colorPiel" value="Negro" style="display: none;">
+                        <label for="piel5" class="color-option" style="background-color: #3E2723;" title="Negro"></label>
+
+                        <input type="radio" id="piel6" name="colorPiel" value="personalizado" style="display: none;">
+                        <label for="piel6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado">✏️</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="seccionPielPersonalizada" style="display: none;">
+                    <label for="pielPersonalizadaTexto">Especifica el color de piel personalizado</label>
+                    <input type="text" id="pielPersonalizadaTexto" name="pielPersonalizadaTexto" placeholder="Ej: Rosa pastel, Azul, Verde oliva, etc.">
+                </div>
+            </fieldset>
+
             <!-- Sección 5: Ojos -->
             <fieldset class="seccion">
                 <legend>👀 Color de Ojos</legend>
 
                 <div class="form-group">
-                    <label for="colorOjos">Color de Ojos (por defecto los funkos llevan los ojos de color negro, pero si desea podemos cambiarlo a su gusto)</label>
-                    <textarea id="colorOjos" name="colorOjos" rows="2" placeholder="Ej: Negro (default), Azul, Verde, Marrón, etc."></textarea>
+                    <label>Selecciona el color de los ojos</label>
+                    <div class="color-palette">
+                        <input type="radio" id="ojo1" name="colorOjos" value="Negro" style="display: none;">
+                        <label for="ojo1" class="color-option" style="background-color: #1A1A1A;" title="Negro"></label>
+
+                        <input type="radio" id="ojo2" name="colorOjos" value="Marrón" style="display: none;">
+                        <label for="ojo2" class="color-option" style="background-color: #8B4513;" title="Marrón"></label>
+
+                        <input type="radio" id="ojo3" name="colorOjos" value="Verde" style="display: none;">
+                        <label for="ojo3" class="color-option" style="background-color: #2D5016;" title="Verde"></label>
+
+                        <input type="radio" id="ojo4" name="colorOjos" value="Azul" style="display: none;">
+                        <label for="ojo4" class="color-option" style="background-color: #003DA5;" title="Azul"></label>
+
+                        <input type="radio" id="ojo5" name="colorOjos" value="Gris" style="display: none;">
+                        <label for="ojo5" class="color-option" style="background-color: #808080;" title="Gris"></label>
+
+                        <input type="radio" id="ojo6" name="colorOjos" value="personalizado" style="display: none;">
+                        <label for="ojo6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado">✏️</label>
+                    </div>
+                    <small>Por defecto los funkos llevan los ojos de color negro</small>
+                </div>
+
+                <div class="form-group" id="seccionOjoPersonalizado" style="display: none;">
+                    <label for="ojoPersonalizadoTexto">Especifica el color de ojo personalizado</label>
+                    <input type="text" id="ojoPersonalizadoTexto" name="ojoPersonalizadoTexto" placeholder="Ej: Rosa claro, Violeta, Dorado, etc.">
                 </div>
             </fieldset>
 
@@ -170,8 +232,8 @@
                 <legend>📌 Nota Importante</legend>
 
                 <div class="info-note">
-                    <p>Si algún detalle no se menciona en este formulario, será realizado con <strong>mi creatividad y estilo artístico 🎨</strong>.</p>
-                    <p><strong>Cambios posteriores</strong> solo se harán si hubo un error respecto a lo indicado en este formulario.</p>
+                    <p><strong>Todos los detalles del Funko deben ser indicados en este formulario.</strong> Los detalles que no se especifiquen al momento de realizar el pedido no podrán modificarse una vez finalizada la pieza.</p>
+                    <p>Una vez recibida toda la información, se enviará la <strong>cotización total en USD</strong> junto con los detalles del proceso de pago para iniciar tu pedido.</p>
                 </div>
             </fieldset>
 

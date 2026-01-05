@@ -860,3 +860,111 @@ body::before {
     }
 }
 
+/* Estilos visuales para opciones de color de piel */
+#colorPiel option {
+    padding: 0.75rem;
+    background-color: white;
+    color: var(--color-text);
+}
+
+#colorPiel option:checked {
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    color: white;
+}
+
+/* Paleta de colores de piel */
+.color-palette {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.color-option {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.color-custom {
+    position: relative;
+    overflow: hidden;
+}
+
+.color-custom::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked + .color-option,
+.color-option:has(input[type="radio"]:checked) {
+    border-color: var(--color-primary);
+    border-width: 4px;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-primary);
+}
+
+/* Animaciones para advertencias y validaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.advertencia-fecha {
+    animation: slideIn 0.3s ease-in-out !important;
+}
+
+/* Validación de fecha */
+#fechaEntrega:invalid {
+    border-color: #ff6b6b;
+}
+
+#fechaEntrega:valid {
+    border-color: var(--color-primary);
+}
+
+/* Responsive para mobile */
+@media (max-width: 600px) {
+    .color-palette {
+        gap: 0.75rem;
+    }
+
+    .color-option {
+        width: 50px;
+        height: 50px;
+    }
+}
+

@@ -20,12 +20,15 @@ class FormHandler {
             email: document.getElementById('email'),
             nombreCaja: document.getElementById('nombreCaja'),
             fechaEntrega: document.getElementById('fechaEntrega'),
-            expres: document.getElementById('expres'),
+            tipoPedido: document.querySelector('input[name="tipoPedido"]:checked'),
             domicilioCheckbox: document.getElementById('domicilioCheckbox'),
             direccionDomicilio: document.getElementById('direccionDomicilio'),
             vestuario: document.getElementById('vestuario'),
             colorCabello: document.getElementById('colorCabello'),
+            colorPiel: document.getElementById('colorPiel'),
+            pielPersonalizadaTexto: document.getElementById('pielPersonalizadaTexto'),
             colorOjos: document.getElementById('colorOjos'),
+            ojoPersonalizadoTexto: document.getElementById('ojoPersonalizadoTexto'),
             accesorios: document.getElementById('accesorios'),
             detallesAdicionales: document.getElementById('detallesAdicionales')
         };
@@ -71,6 +74,15 @@ class FormHandler {
      * Obtiene los datos del formulario como objeto
      */
     obtenerDatos() {
+        const colorOjosSeleccionado = document.querySelector('input[name="colorOjos"]:checked');
+        let colorOjos = colorOjosSeleccionado ? colorOjosSeleccionado.value : '';
+        
+        const colorPielSeleccionado = document.querySelector('input[name="colorPiel"]:checked');
+        let colorPiel = colorPielSeleccionado ? colorPielSeleccionado.value : '';
+        
+        const tipoPedidoSeleccionado = document.querySelector('input[name="tipoPedido"]:checked');
+        let tipoPedido = tipoPedidoSeleccionado ? tipoPedidoSeleccionado.value : 'regular';
+        
         return {
             tipoFunko: this.campos.tipoFunko.value,
             nombrePersonaje: this.campos.nombrePersonaje.value.trim(),
@@ -79,12 +91,14 @@ class FormHandler {
             email: this.campos.email.value.trim(),
             nombreCaja: this.campos.nombreCaja.value.trim(),
             fechaEntrega: this.campos.fechaEntrega.value,
-            esExpres: this.campos.expres.checked,
+            tipoPedido: tipoPedido,
+            esExpres: tipoPedido === 'expres',
             tieneDomicilio: this.campos.domicilioCheckbox.checked,
             direccionDomicilio: this.campos.direccionDomicilio.value.trim(),
             vestuario: this.campos.vestuario.value.trim(),
             colorCabello: this.campos.colorCabello.value.trim(),
-            colorOjos: this.campos.colorOjos.value.trim(),
+            colorPiel: colorPiel === 'personalizado' ? this.campos.pielPersonalizadaTexto.value.trim() : colorPiel,
+            colorOjos: colorOjos === 'personalizado' ? this.campos.ojoPersonalizadoTexto.value.trim() : colorOjos,
             accesorios: this.campos.accesorios.value.trim(),
             detallesAdicionales: this.campos.detallesAdicionales.value.trim()
         };
@@ -105,6 +119,7 @@ class FormHandler {
         const tipoFunko = this.campos.tipoFunko.value;
         const seccionPersonaje = document.getElementById('seccionPersonaje');
         const seccionDetalles = document.getElementById('seccionDetalles');
+        const seccionColorPiel = document.getElementById('seccionColorPiel');
         const campoNombre = this.campos.nombre;
 
         // Mostrar/ocultar sección de personaje
@@ -114,6 +129,13 @@ class FormHandler {
         } else {
             seccionPersonaje.style.display = 'none';
             campoNombre.parentElement.style.display = 'block';
+        }
+
+        // Mostrar/ocultar sección de color de piel (no mostrar para personajes)
+        if (tipoFunko === 'personaje') {
+            seccionColorPiel.style.display = 'none';
+        } else {
+            seccionColorPiel.style.display = 'block';
         }
 
         // Mostrar/ocultar sección de detalles adicionales
@@ -155,6 +177,40 @@ document.getElementById('domicilioCheckbox').addEventListener('change', function
         seccionDireccion.style.display = 'none';
         inputDireccion.value = '';
     }
+});
+
+// Manejar cambios en el selector de color de ojos (mostrar campo personalizado)
+const colorOjosRadios = document.querySelectorAll('input[name="colorOjos"]');
+colorOjosRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        const seccionOjoPersonalizado = document.getElementById('seccionOjoPersonalizado');
+        const inputOjoPersonalizado = document.getElementById('ojoPersonalizadoTexto');
+        
+        if (this.value === 'personalizado') {
+            seccionOjoPersonalizado.style.display = 'block';
+            inputOjoPersonalizado.focus();
+        } else {
+            seccionOjoPersonalizado.style.display = 'none';
+            inputOjoPersonalizado.value = '';
+        }
+    });
+});
+
+// Manejar cambios en el selector de color de piel (mostrar campo personalizado)
+const colorPielRadios = document.querySelectorAll('input[name="colorPiel"]');
+colorPielRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        const seccionPielPersonalizada = document.getElementById('seccionPielPersonalizada');
+        const inputPielPersonalizada = document.getElementById('pielPersonalizadaTexto');
+        
+        if (this.value === 'personalizado') {
+            seccionPielPersonalizada.style.display = 'block';
+            inputPielPersonalizada.focus();
+        } else {
+            seccionPielPersonalizada.style.display = 'none';
+            inputPielPersonalizada.value = '';
+        }
+    });
 });
 
 // Mostrar/ocultar campos condicionales al cargar la página

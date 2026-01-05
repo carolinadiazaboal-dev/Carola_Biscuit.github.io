@@ -42,8 +42,10 @@ class WhatsAppIntegration {
 
         mensaje += `*FECHA DE ENTREGA*\n`;
         mensaje += `${this.formatearFecha(datos.fechaEntrega)}\n`;
-        if (datos.esExpres) {
-            mensaje += `PEDIDO EXPRES - Recargo +$15 USD\n`;
+        if (datos.tipoPedido === 'expres') {
+            mensaje += `⚡ PEDIDO EXPRÉS - Recargo +$15 USD\n`;
+        } else {
+            mensaje += `📦 PEDIDO REGULAR (0 USD)\n`;
         }
         mensaje += `\n`;
 
@@ -60,6 +62,12 @@ class WhatsAppIntegration {
         mensaje += `*CABELLO*\n`;
         mensaje += `${datos.colorCabello}\n`;
         mensaje += `\n`;
+
+        if (datos.colorPiel) {
+            mensaje += `*COLOR DE LA PIEL*\n`;
+            mensaje += `${datos.colorPiel}\n`;
+            mensaje += `\n`;
+        }
 
         if (datos.colorOjos) {
             mensaje += `*COLOR DE OJOS*\n`;

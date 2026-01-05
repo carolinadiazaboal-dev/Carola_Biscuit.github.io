@@ -106,28 +106,35 @@ function inicializarAplicacion() {
  */
 function configurarFechasDisponibles() {
     const inputFecha = document.getElementById('fechaEntrega');
-    const checkboxExpres = document.getElementById('expres');
+    const radioPedidos = document.querySelectorAll('input[name="tipoPedido"]');
     const textoFecha = document.getElementById('textoFecha');
     const hoy = new Date();
 
-    // Función para actualizar las fechas según si es express o no
-    function actualizarFechas() {
-        const esExpres = checkboxExpres.checked;
-        const diasMinimos = esExpres ? 10 : 20; // 10 días si es express, 20 si es normal
-        
+    // Función para obtener la fecha mínima según el tipo de pedido
+    function obtenerFechaMinima(tipoPedido) {
+        const diasMinimos = tipoPedido === 'expres' ? 15 : 30;
         const fechaMinima = new Date(hoy);
         fechaMinima.setDate(fechaMinima.getDate() + diasMinimos);
+        return fechaMinima;
+    }
 
-        // Establecer fecha mínima
+    // Función para actualizar las fechas según el tipo de pedido
+    function actualizarFechas() {
+        const tipoPedidoSeleccionado = document.querySelector('input[name="tipoPedido"]:checked');
+        const tipoPedido = tipoPedidoSeleccionado ? tipoPedidoSeleccionado.value : 'regular';
+        
+        const fechaMinima = obtenerFechaMinima(tipoPedido);
         const fechaMinimaISO = fechaMinima.toISOString().split('T')[0];
+        
+        // Establecer fecha mínima en el input
         inputFecha.min = fechaMinimaISO;
 
         // Actualizar texto de ayuda
         if (textoFecha) {
-            if (esExpres) {
-                textoFecha.textContent = '⚡ Pedido express: Mínimo 15 días desde hoy';
+            if (tipoPedido === 'expres') {
+                textoFecha.textContent = '⚡ Pedido Exprés: Mínimo 15 días desde hoy (+15 USD)';
             } else {
-                textoFecha.textContent = '📅 Pedido normal: Mínimo 30 días desde hoy';
+                textoFecha.textContent = '📦 Pedido Regular: Mínimo 30 días desde hoy (0 USD)';
             }
         }
 
@@ -135,11 +142,12 @@ function configurarFechasDisponibles() {
         const fechaActual = inputFecha.value;
         if (fechaActual && new Date(fechaActual) < fechaMinima) {
             inputFecha.value = fechaMinimaISO;
+            mostrarAdvertencia(`La fecha debe ser al menos ${tipoPedido === 'expres' ? '15 días' : '30 días'} desde hoy`);
         }
 
         // Si el campo está vacío, establecer la fecha recomendada
         if (!inputFecha.value) {
-            const diasRecomendados = esExpres ? 15 : 30;
+            const diasRecomendados = tipoPedido === 'expres' ? 15 : 30;
             const fechaRecomendada = new Date(hoy);
             fechaRecomendada.setDate(fechaRecomendada.getDate() + diasRecomendados);
             const fechaRecomendadaISO = fechaRecomendada.toISOString().split('T')[0];
@@ -147,14 +155,87 @@ function configurarFechasDisponibles() {
         }
 
         // Log para debug
-        console.log(`📅 Fechas actualizadas - Express: ${esExpres ? 'Sí (10 días mín)' : 'No (20 días mín)'}`);
+        console.log(`📅 Fechas actualizadas - Tipo: ${tipoPedido === 'expres' ? 'Exprés (10 días mín)' : 'Regular (30 días mín)'}, Mínimo: ${fechaMinimaISO}`);
+    }
+
+    // Validar cuando se cambia la fecha manualmente
+    function validarFecha() {
+        const tipoPedidoSeleccionado = document.querySelector('input[name="tipoPedido"]:checked');
+        const tipoPedido = tipoPedidoSeleccionado ? tipoPedidoSeleccionado.value : 'regular';
+        const fechaMinima = obtenerFechaMinima(tipoPedido);
+        const fechaMinimaISO = fechaMinima.toISOString().split('T')[0];
+        
+        const fechaIngresada = new Date(inputFecha.value + 'T00:00:00');
+        
+        if (inputFecha.value && fechaIngresada < fechaMinima) {
+            // Mostrar alerta visual
+            inputFecha.style.borderColor = '#ff6b6b';
+            inputFecha.style.backgroundColor = '#fff5f5';
+            mostrarAdvertencia(`⚠️ La fecha debe ser al menos ${tipoPedido === 'expres' ? '15 días' : '30 días'} desde hoy (Mínimo: ${fechaMinimaISO})`);
+            
+            // Revertir a la fecha mínima después de 2 segundos
+            setTimeout(() => {
+                inputFecha.value = fechaMinimaISO;
+                inputFecha.style.borderColor = '';
+                inputFecha.style.backgroundColor = '';
+            }, 2000);
+            
+            return false;
+        } else {
+            // Limpiar estilos de error
+            inputFecha.style.borderColor = '';
+            inputFecha.style.backgroundColor = '';
+            console.log(`✅ Fecha válida: ${inputFecha.value}`);
+            return true;
+        }
+    }
+
+    // Mostrar advertencia temporal
+    function mostrarAdvertencia(mensaje) {
+        // Remover advertencia anterior si existe
+        const advertenciaAnterior = document.querySelector('.advertencia-fecha');
+        if (advertenciaAnterior) {
+            advertenciaAnterior.remove();
+        }
+
+        // Crear nueva advertencia
+        const div = document.createElement('div');
+        div.className = 'advertencia-fecha';
+        div.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px 16px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-in-out;
+        `;
+        div.textContent = mensaje;
+        document.body.appendChild(div);
+
+        // Remover después de 4 segundos
+        setTimeout(() => {
+            div.style.animation = 'slideOut 0.3s ease-in-out';
+            setTimeout(() => div.remove(), 300);
+        }, 4000);
     }
 
     // Llamar cuando se carga la página
     actualizarFechas();
 
-    // Actualizar cuando se marca/desmarca express
-    checkboxExpres.addEventListener('change', actualizarFechas);
+    // Actualizar cuando se cambia el tipo de pedido
+    radioPedidos.forEach(radio => {
+        radio.addEventListener('change', actualizarFechas);
+    });
+
+    // Validar cuando cambie la fecha
+    inputFecha.addEventListener('change', validarFecha);
+    inputFecha.addEventListener('blur', validarFecha);
 }
 
 /**
