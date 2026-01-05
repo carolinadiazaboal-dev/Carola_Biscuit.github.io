@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carola Biscuit - Pedido de Funko Pop Personalizado</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header con Logo -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-wrapper">
+                        <img id="logo" src="img/Logo.png" alt="Logo Carola Biscuit" class="logo">
+                        <div id="logoPlaceholder" class="logo-placeholder-bg">🎁</div>
+                    </div>
+                </div>
+                <h1>Carola Biscuit</h1>
+                <p class="subtitle">Funkos Pop Personalizados 🩷</p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <form id="pedidoForm" class="formulario">
+            <!-- Sección 1: Datos del Cliente -->
+            <fieldset class="seccion">
+                <legend>👤 Datos del Cliente</legend>
+                
+                <div class="form-group">
+                    <label for="nombre">✍🏻 Nombre de la persona que desea recrear *</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Nombre de la persona">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (opcional)</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com">
+                </div>
+            </fieldset>
+
+            <!-- Sección 2: Fecha de Entrega -->
+            <fieldset class="seccion">
+                <legend>📅 Fecha de Entrega</legend>
+
+                <div class="form-group">
+                    <label for="fechaEntrega">📅 ¿Cuándo necesitas tu Funko? *</label>
+                    <input type="date" id="fechaEntrega" name="fechaEntrega" required>
+                    <small id="textoFecha">Mínimo 20 días desde hoy</small>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="expres" name="expres">
+                    <label for="expres"><strong>⚡ Pedido Exprés</strong> - Mínimo 10 días (+15 USD)</label>
+                </div>
+            </fieldset>
+
+            <!-- Sección 3: Vestuario -->
+            <fieldset class="seccion">
+                <legend>👗 Vestuario</legend>
+
+                <div class="form-group">
+                    <label for="vestuario">Descripción completa de la ropa que desee que lleve su funko pop (colores, tipo de prenda, accesorios del vestuario, etc.) *</label>
+                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder="Describe detalladamente cada prenda, colores, accesorios de vestuario&#10;Ej: Camiseta blanca, pantalón azul oscuro, cinturón negro..."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 4: Cabello -->
+            <fieldset class="seccion">
+                <legend>💇‍♀ Cabello</legend>
+
+                <div class="form-group">
+                    <label for="colorCabello">Color y largo del cabello *</label>
+                    <textarea id="colorCabello" name="colorCabello" rows="2" required placeholder="Ej: Negro largo, Rubio corto, Castaño media espalda..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="detallesCabello">👩‍🎤🧑‍🎤👨‍🎤 Detalles específicos del cabello (pelo suelto, recogido, detrás de la oreja, con accesorios, etc.)</label>
+                    <textarea id="detallesCabello" name="detallesCabello" rows="3" placeholder="Describe cómo debe verse el cabello&#10;Ej: Pelo suelto con flequillo, recogido en cola alta, ondas..."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 5: Ojos -->
+            <fieldset class="seccion">
+                <legend>👀 Color de Ojos</legend>
+
+                <div class="form-group">
+                    <label for="colorOjos">Color de Ojos (por defecto los funkos llevan los ojos de color negro, pero si desea podemos cambiarlo a su gusto)</label>
+                    <textarea id="colorOjos" name="colorOjos" rows="2" placeholder="Ej: Negro (default), Azul, Verde, Marrón, etc."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 6: Accesorios -->
+            <fieldset class="seccion">
+                <legend>🌸 Accesorios</legend>
+
+                <div class="form-group">
+                    <label for="accesorios">¿Quieres incluir accesorios? (gafas, gorro, cadenas, flores, etc.)</label>
+                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 7: Detalles Adicionales -->
+            <fieldset class="seccion">
+                <legend>🎁 Detalles Adicionales</legend>
+
+                <div class="form-group">
+                    <label for="detallesAdicionales">Algún detalle especial que quieras agregar (objeto en mano, pose, tatuaje, etc.)</label>
+                    <textarea id="detallesAdicionales" name="detallesAdicionales" rows="3" placeholder="Describa detalles especiales como tatuajes, objetos, pose especial, etc."></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Sección 8: Fotografía de Referencia -->
+            <fieldset class="seccion">
+                <legend>📸 Fotografía de Referencia</legend>
+
+                <div class="form-group">
+                    <label for="foto">📸 Sube una foto del personaje (opcional)</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                    <small>Sube una foto clara de la persona o personaje que deseas recrear. La foto se adjuntara automaticamente en WhatsApp.</small>
+                    <div id="fotoPreview" class="foto-preview"></div>
+                </div>
+            </fieldset>
+
+            <!-- Sección 9: Nota Importante -->
+            <fieldset class="seccion">
+                <legend>📌 Nota Importante</legend>
+
+                <div class="info-note">
+                    <p>Si algún detalle no se menciona en este formulario, será realizado con <strong>mi creatividad y estilo artístico 🎨</strong>.</p>
+                    <p><strong>Cambios posteriores</strong> solo se harán si hubo un error respecto a lo indicado en este formulario.</p>
+                </div>
+            </fieldset>
+
+            <!-- Botón Enviar -->
+            <div class="form-group button-group">
+                <button type="submit" class="btn-enviar">📲 Enviar Pedido por WhatsApp</button>
+            </div>
+
+            <p class="disclaimer">Al enviar este formulario, se abrirá WhatsApp con tu pedido listo para confirmar.</p>
+        </form>
+    </div>
+
+    <!-- Scripts modulares -->
+    <script src="js/config.js"></script>
+    <script src="js/formHandler.js"></script>
+    <script src="js/whatsappIntegration.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
