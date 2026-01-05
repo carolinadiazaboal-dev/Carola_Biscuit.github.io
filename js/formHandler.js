@@ -21,7 +21,8 @@ class FormHandler {
             nombreCaja: document.getElementById('nombreCaja'),
             fechaEntrega: document.getElementById('fechaEntrega'),
             expres: document.getElementById('expres'),
-            domicilio: document.getElementById('domicilio'),
+            domicilioCheckbox: document.getElementById('domicilioCheckbox'),
+            direccionDomicilio: document.getElementById('direccionDomicilio'),
             vestuario: document.getElementById('vestuario'),
             colorCabello: document.getElementById('colorCabello'),
             colorOjos: document.getElementById('colorOjos'),
@@ -79,7 +80,8 @@ class FormHandler {
             nombreCaja: this.campos.nombreCaja.value.trim(),
             fechaEntrega: this.campos.fechaEntrega.value,
             esExpres: this.campos.expres.checked,
-            domicilio: this.campos.domicilio.value.trim(),
+            tieneDomicilio: this.campos.domicilioCheckbox.checked,
+            direccionDomicilio: this.campos.direccionDomicilio.value.trim(),
             vestuario: this.campos.vestuario.value.trim(),
             colorCabello: this.campos.colorCabello.value.trim(),
             colorOjos: this.campos.colorOjos.value.trim(),
@@ -139,6 +141,20 @@ const formHandler = new FormHandler('pedidoForm');
 // Manejar cambios en el dropdown de tipo de funko
 document.getElementById('tipoFunko').addEventListener('change', () => {
     formHandler.mostrarOcultarCamposCondicionales();
+});
+
+// Manejar cambios en el checkbox de domicilio
+document.getElementById('domicilioCheckbox').addEventListener('change', function() {
+    const seccionDireccion = document.getElementById('seccionDireccion');
+    const inputDireccion = document.getElementById('direccionDomicilio');
+    
+    if (this.checked) {
+        seccionDireccion.style.display = 'block';
+        inputDireccion.focus();
+    } else {
+        seccionDireccion.style.display = 'none';
+        inputDireccion.value = '';
+    }
 });
 
 // Mostrar/ocultar campos condicionales al cargar la página

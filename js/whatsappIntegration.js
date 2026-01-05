@@ -47,9 +47,9 @@ class WhatsAppIntegration {
         }
         mensaje += `\n`;
 
-        if (datos.domicilio) {
+        if (datos.tieneDomicilio) {
             mensaje += `*SERVICIO A DOMICILIO*\n`;
-            mensaje += `${datos.domicilio}\n`;
+            mensaje += `${datos.direccionDomicilio}\n`;
             mensaje += `\n`;
         }
 
@@ -82,7 +82,6 @@ class WhatsAppIntegration {
         mensaje += `*FOTOGRAFÍA PARA LA CAJA*\n`;
         mensaje += `Por favor, envía una foto en buena calidad para la personalización de la caja del Funko Pop.\n`;
         mensaje += `\n`;
-       
 
         mensaje += `*NOTA IMPORTANTE*\n`;
         mensaje += `Si algun detalle no se menciona en este formulario, sera realizado con mi creatividad y estilo artistico.\n`;

@@ -102,9 +102,14 @@
             <fieldset class="seccion">
                 <legend>🚚 Servicio a Domicilio</legend>
 
-                <div class="form-group">
-                    <label for="domicilio">¿Deseas servicio a domicilio? (opcional)</label>
-                    <textarea id="domicilio" name="domicilio" rows="3" placeholder="Indica si deseas que entregamos en tu domicilio y proporciona la dirección&#10;Ej: Sí, calle Principal 123, apartamento 4B, zona 12..."></textarea>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="domicilioCheckbox" name="domicilioCheckbox">
+                    <label for="domicilioCheckbox"><strong>Deseo servicio a domicilio</strong> - Proporciona tu dirección</label>
+                </div>
+
+                <div class="form-group" id="seccionDireccion" style="display: none;">
+                    <label for="direccionDomicilio">Dirección de entrega *</label>
+                    <textarea id="direccionDomicilio" name="direccionDomicilio" rows="3" placeholder="Calle, número, apartamento, zona&#10;Ej: Calle Principal 123, apartamento 4B, zona 12..."></textarea>
                     <small>Confirmaremos disponibilidad y costo del envío</small>
                 </div>
             </fieldset>
