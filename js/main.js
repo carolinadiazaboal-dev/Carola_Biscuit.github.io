@@ -91,8 +91,11 @@ function inicializarAplicacion() {
     // Cargar logo si existe
     cargarLogo();
     
-    // Configurar preview de foto
-    configurarPreviewFoto();
+    // Configurar preview de foto (solo si el elemento existe)
+    const inputFoto = document.getElementById('foto');
+    if (inputFoto) {
+        configurarPreviewFoto();
+    }
 
     console.log('✅ Aplicación inicializada correctamente');
     console.log('📱 WhatsApp:', CONFIG.NEGOCIO.whatsapp);
@@ -122,9 +125,9 @@ function configurarFechasDisponibles() {
         // Actualizar texto de ayuda
         if (textoFecha) {
             if (esExpres) {
-                textoFecha.textContent = '⚡ Pedido express: Mínimo 10 días desde hoy';
+                textoFecha.textContent = '⚡ Pedido express: Mínimo 15 días desde hoy';
             } else {
-                textoFecha.textContent = '📅 Pedido normal: Mínimo 20 días desde hoy';
+                textoFecha.textContent = '📅 Pedido normal: Mínimo 30 días desde hoy';
             }
         }
 

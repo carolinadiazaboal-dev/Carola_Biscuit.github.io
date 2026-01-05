@@ -9,6 +9,23 @@ class WhatsAppIntegration {
     static construirMensaje(datos) {
         let mensaje = `*NUEVO PEDIDO - CAROLA BISCUIT*\n\n`;
 
+        mensaje += `*TIPO DE FUNKO*\n`;
+        const tiposDispuesta = {
+            'personalizado': 'Funko Personalizado',
+            'personalizado-detalles': 'Funko Personalizado + DETALLES',
+            'pareja': 'Funko Pareja Personalizadas',
+            'pareja-detalles': 'Funko Pareja Personalizadas + DETALLES',
+            'personaje': 'Funko de Personaje'
+        };
+        mensaje += `${tiposDispuesta[datos.tipoFunko]}\n`;
+        mensaje += `\n`;
+
+        if (datos.tipoFunko === 'personaje' && datos.nombrePersonaje) {
+            mensaje += `*PERSONAJE*\n`;
+            mensaje += `${datos.nombrePersonaje}\n`;
+            mensaje += `\n`;
+        }
+
         mensaje += `*DATOS DEL CLIENTE*\n`;
         mensaje += `Nombre: ${datos.nombre}\n`;
         mensaje += `Teléfono: ${datos.telefono}\n`;
@@ -17,12 +34,24 @@ class WhatsAppIntegration {
         }
         mensaje += `\n`;
 
+        if (datos.nombreCaja) {
+            mensaje += `*NOMBRE PARA LA CAJA DEL FUNKO*\n`;
+            mensaje += `${datos.nombreCaja}\n`;
+            mensaje += `\n`;
+        }
+
         mensaje += `*FECHA DE ENTREGA*\n`;
         mensaje += `${this.formatearFecha(datos.fechaEntrega)}\n`;
         if (datos.esExpres) {
             mensaje += `PEDIDO EXPRES - Recargo +$15 USD\n`;
         }
         mensaje += `\n`;
+
+        if (datos.domicilio) {
+            mensaje += `*SERVICIO A DOMICILIO*\n`;
+            mensaje += `${datos.domicilio}\n`;
+            mensaje += `\n`;
+        }
 
         mensaje += `*VESTUARIO*\n`;
         mensaje += `${datos.vestuario}\n`;
@@ -53,8 +82,8 @@ class WhatsAppIntegration {
             mensaje += `\n`;
         }
 
-        mensaje += `*FOTO DE REFERENCIA*\n`;
-        mensaje += `${datos.tieneFoto ? 'Si - Adjunta la foto en el siguiente mensaje' : 'No - Se utilizara creatividad artistico'}\n`;
+        mensaje += `*FOTOGRAFÍA PARA LA CAJA*\n`;
+        mensaje += `Por favor, envía una foto en buena calidad para la personalización de la caja del Funko Pop.\n`;
         mensaje += `\n`;
 
         mensaje += `*PROXIMOS PASOS*\n`;
