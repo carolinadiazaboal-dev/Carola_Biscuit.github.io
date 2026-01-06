@@ -35,22 +35,29 @@ class FormHandler {
     }
 
     /**
-     * Valida que los campos requeridos estén completos
+     * Valida que los campos requeridos estén completo
      */
     validar() {
+        const tipoFunko = this.campos.tipoFunko.value;
+        
+        // Campos obligatorios para todos
         const camposRequeridos = [
             { id: 'tipoFunko', nombre: 'Tipo de Funko' },
-            { id: 'nombre', nombre: 'Nombre' },
+            { id: 'nombre', nombre: 'Nombre del Cliente' },
             { id: 'telefono', nombre: 'Teléfono' },
-            { id: 'fechaEntrega', nombre: 'Fecha de Entrega' },
-            { id: 'vestuario', nombre: 'Descripción de Vestuario' },
-            { id: 'colorCabello', nombre: 'Color y largo del cabello' }
+            { id: 'fechaEntrega', nombre: 'Fecha de Entrega' }
         ];
 
-        // Validación especial para nombre del personaje si es personaje
-        const tipoFunko = this.campos.tipoFunko.value;
+        // Validación especial según tipo de funko
         if (tipoFunko === 'personaje') {
+            // Para personajes: solo necesita nombre del personaje
             camposRequeridos.push({ id: 'nombrePersonaje', nombre: 'Nombre del Personaje' });
+        } else {
+            // Para personalizados, personalizado-detalles, pareja y pareja-detalles
+            camposRequeridos.push(
+                { id: 'vestuario', nombre: 'Descripción de Vestuario' },
+                { id: 'colorCabello', nombre: 'Color y largo del cabello' }
+            );
         }
 
         for (const campo of camposRequeridos) {
@@ -125,7 +132,7 @@ class FormHandler {
         const seccionPersonaje = document.getElementById('seccionPersonaje');
         const seccionDetalles = document.getElementById('seccionDetalles');
         const seccionColorPiel = document.getElementById('seccionColorPiel');
-        const campoNombre = this.campos.nombre;
+        const seccionColorOjos = document.getElementById('seccionColorOjos');
         const avisoPareja = document.getElementById('avisoPareja');
 
         // Mostrar/ocultar aviso de pareja
@@ -138,17 +145,17 @@ class FormHandler {
         // Mostrar/ocultar sección de personaje
         if (tipoFunko === 'personaje') {
             seccionPersonaje.style.display = 'block';
-            campoNombre.parentElement.style.display = 'none';
         } else {
             seccionPersonaje.style.display = 'none';
-            campoNombre.parentElement.style.display = 'block';
         }
 
-        // Mostrar/ocultar sección de color de piel (no mostrar para personajes)
+        // Mostrar/ocultar sección de color de piel y ojos (no mostrar para personajes)
         if (tipoFunko === 'personaje') {
             seccionColorPiel.style.display = 'none';
+            seccionColorOjos.style.display = 'none';
         } else {
             seccionColorPiel.style.display = 'block';
+            seccionColorOjos.style.display = 'block';
         }
 
         // Mostrar/ocultar sección de detalles adicionales

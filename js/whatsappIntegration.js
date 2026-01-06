@@ -27,10 +27,10 @@ class WhatsAppIntegration {
         }
 
         mensaje += `*DATOS DEL CLIENTE*\n`;
-        mensaje += `Nombre: ${datos.nombre}\n`;
-        mensaje += `Teléfono: ${datos.telefono}\n`;
+        mensaje += `👤 Nombre: ${datos.nombre}\n`;
+        mensaje += `📱 Teléfono: ${datos.telefono}\n`;
         if (datos.email) {
-            mensaje += `Email: ${datos.email}\n`;
+            mensaje += `📧 Email: ${datos.email}\n`;
         }
         mensaje += `\n`;
 
