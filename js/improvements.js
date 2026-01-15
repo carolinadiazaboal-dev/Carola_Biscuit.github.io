@@ -17,10 +17,6 @@ class FormImprovements {
         // Detectar si es móvil
         this.isMobile = window.innerWidth <= 768;
         
-        // Variables para scroll mejorado
-        this.keyboardHeight = 0;
-        this.originalScrollPosition = 0;
-        
         if (!this.form) {
             console.warn('Formulario no encontrado');
             return;
@@ -60,9 +56,6 @@ class FormImprovements {
             }
         });
         
-        // Scroll y Focus mejorado para móvil
-        this.mejorarScrollYFocus();
-        
         // Escuchar cambios de tamaño de ventana
         window.addEventListener('resize', () => {
             this.isMobile = window.innerWidth <= 768;
@@ -80,70 +73,6 @@ class FormImprovements {
         
         // Inicializar progreso
         this.actualizarProgreso();
-    }
-
-    /**
-     * Mejora el scroll y focus para móvil
-     */
-    mejorarScrollYFocus() {
-        const campos = this.form.querySelectorAll('input, textarea, select');
-        
-        campos.forEach(campo => {
-            // Al hacer focus en un campo
-            campo.addEventListener('focus', (e) => {
-                if (this.isMobile) {
-                    // Cerrar panel resumen si está abierto
-                    this.cerrarResumen();
-                    
-                    // Guardar posición actual
-                    this.originalScrollPosition = window.scrollY;
-                    
-                    // Hacer scroll suave al campo con delay para el teclado
-                    setTimeout(() => {
-                        this.scrollToCampo(e.target);
-                    }, 300);
-                }
-            });
-            
-            // Al perder focus
-            campo.addEventListener('blur', () => {
-                if (this.isMobile) {
-                    // Opcional: restaurar scroll
-                    // window.scrollTo({ top: this.originalScrollPosition, behavior: 'smooth' });
-                }
-            });
-        });
-        
-        // Detectar cuando se abre el teclado móvil
-        if (this.isMobile) {
-            window.visualViewport?.addEventListener('resize', () => {
-                const currentHeight = window.visualViewport.height;
-                const windowHeight = window.innerHeight;
-                this.keyboardHeight = windowHeight - currentHeight;
-                
-                // Si el teclado está abierto
-                if (this.keyboardHeight > 100) {
-                    this.cerrarResumen();
-                }
-            });
-        }
-    }
-
-    /**
-     * Hace scroll al campo con padding extra para el teclado
-     */
-    scrollToCampo(campo) {
-        const rect = campo.getBoundingClientRect();
-        const offsetTop = rect.top + window.scrollY;
-        
-        // Calcular posición con espacio para el teclado móvil
-        const offset = this.isMobile ? 120 : 80;
-        const scrollPosition = offsetTop - offset;
-        
-        window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth'
-        });
     }
 
     /**

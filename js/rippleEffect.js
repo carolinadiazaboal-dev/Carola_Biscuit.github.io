@@ -5,6 +5,7 @@
 
 class RippleEffect {
     constructor() {
+        this.lastRippleTime = 0;
         this.init();
     }
 
@@ -29,11 +30,15 @@ class RippleEffect {
      * Crea el efecto ripple en el elemento
      */
     createRipple(event, element) {
-        // Limpiar ripples anteriores
-        const existingRipple = element.querySelector('.ripple');
-        if (existingRipple) {
-            existingRipple.remove();
+        // Prevenir duplicados en touch devices
+        if (event.type === 'touchstart' && this.lastRippleTime && Date.now() - this.lastRippleTime < 300) {
+            return;
         }
+        this.lastRippleTime = Date.now();
+
+        // Limpiar TODOS los ripples anteriores del elemento
+        const existingRipples = element.querySelectorAll('.ripple');
+        existingRipples.forEach(r => r.remove());
 
         // Crear elemento ripple
         const ripple = document.createElement('span');
@@ -44,13 +49,17 @@ class RippleEffect {
         
         // Calcular posición del click/touch
         let x, y;
-        if (event.type === 'touchstart') {
+        if (event.type === 'touchstart' && event.touches && event.touches[0]) {
             const touch = event.touches[0];
             x = touch.clientX - rect.left;
             y = touch.clientY - rect.top;
-        } else {
+        } else if (event.clientX !== undefined) {
             x = event.clientX - rect.left;
             y = event.clientY - rect.top;
+        } else {
+            // Fallback al centro si no hay coordenadas
+            x = rect.width / 2;
+            y = rect.height / 2;
         }
 
         // Calcular el diámetro del ripple (el mayor lado del elemento)
@@ -65,10 +74,18 @@ class RippleEffect {
         // Agregar ripple al elemento
         element.appendChild(ripple);
 
-        // Remover ripple después de la animación
+        // Remover ripple después de la animación con verificación
         setTimeout(() => {
-            ripple.remove();
+            if (ripple && ripple.parentNode) {
+                ripple.remove();
+            }
         }, 600);
+
+        // Limpieza de emergencia por si acaso
+        setTimeout(() => {
+            const stuckRipples = element.querySelectorAll('.ripple');
+            stuckRipples.forEach(r => r.remove());
+        }, 1000);
     }
 }
 

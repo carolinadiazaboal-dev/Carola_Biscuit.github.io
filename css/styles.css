@@ -139,13 +139,18 @@ body::before {
     position: absolute;
     left: 1rem;
     top: 1.2rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--color-text-light);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
     background: white;
-    padding: 0 0.3rem;
+    padding: 0 0.4rem;
     z-index: 1;
+    max-width: calc(100% - 2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
 }
 
 .form-group.has-floating-label input:focus ~ label,
@@ -158,9 +163,14 @@ body::before {
 .form-group.has-floating-label select:not([value=""]) ~ label {
     top: -0.6rem;
     left: 0.8rem;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--color-primary);
     font-weight: 600;
+    white-space: normal;
+    max-width: 90%;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.2;
 }
 
 .form-group.has-floating-label input,
@@ -235,6 +245,31 @@ body::before {
 .form-group.checkbox {
     position: relative;
     overflow: hidden;
+}
+
+/* Desactivar hover en dispositivos táctiles para evitar estados pegados */
+@media (hover: none) and (pointer: coarse) {
+    .form-group.checkbox:hover,
+    .btn-enviar:hover,
+    .resumen-toggle:hover,
+    .color-option:hover,
+    .form-group input:hover,
+    .form-group textarea:hover,
+    .form-group select:hover {
+        transform: none;
+        box-shadow: inherit;
+        border-color: inherit;
+        background: inherit;
+    }
+}
+
+/* Mejorar transiciones para evitar estados pegados */
+.form-group.checkbox,
+.btn-enviar,
+.resumen-toggle,
+.color-option {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 /* Header Mobile */
@@ -894,7 +929,6 @@ body::before {
     .container {
         max-width: 700px;
         width: 100%;
-    }
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(255, 105, 180, 0.15);
     }

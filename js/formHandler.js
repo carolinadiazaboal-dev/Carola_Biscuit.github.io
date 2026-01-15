@@ -121,7 +121,10 @@ class FormHandler {
      */
     reiniciar() {
         this.form.reset();
-        this.mostrarOcultarCamposCondicionales();
+        // Esperar un momento para que el reset se complete
+        setTimeout(() => {
+            this.mostrarOcultarCamposCondicionales();
+        }, 100);
     }
 
     /**
@@ -135,16 +138,25 @@ class FormHandler {
         const seccionColorOjos = document.getElementById('seccionColorOjos');
         const avisoPareja = document.getElementById('avisoPareja');
 
+        // Verificar que las secciones existan antes de modificarlas
+        if (!seccionPersonaje || !seccionColorPiel || !seccionColorOjos) {
+            console.warn('⚠️ Algunas secciones no se encontraron en el DOM');
+            return;
+        }
+
         // Mostrar/ocultar aviso de pareja
-        if (tipoFunko === 'pareja' || tipoFunko === 'pareja-detalles') {
-            avisoPareja.style.display = 'block';
-        } else {
-            avisoPareja.style.display = 'none';
+        if (avisoPareja) {
+            if (tipoFunko === 'pareja' || tipoFunko === 'pareja-detalles') {
+                avisoPareja.style.display = 'block';
+            } else {
+                avisoPareja.style.display = 'none';
+            }
         }
 
         // Mostrar/ocultar sección de personaje
         if (tipoFunko === 'personaje') {
             seccionPersonaje.style.display = 'block';
+            seccionPersonaje.style.animation = 'fadeInUp 0.4s ease-out';
         } else {
             seccionPersonaje.style.display = 'none';
         }
@@ -156,14 +168,21 @@ class FormHandler {
         } else {
             seccionColorPiel.style.display = 'block';
             seccionColorOjos.style.display = 'block';
+            seccionColorPiel.style.animation = 'fadeInUp 0.4s ease-out';
+            seccionColorOjos.style.animation = 'fadeInUp 0.4s ease-out';
         }
 
         // Mostrar/ocultar sección de detalles adicionales
-        if (tipoFunko === 'personalizado-detalles' || tipoFunko === 'pareja-detalles' || tipoFunko === 'personaje') {
-            seccionDetalles.style.display = 'block';
-        } else {
-            seccionDetalles.style.display = 'none';
+        if (seccionDetalles) {
+            if (tipoFunko === 'personalizado-detalles' || tipoFunko === 'pareja-detalles' || tipoFunko === 'personaje') {
+                seccionDetalles.style.display = 'block';
+                seccionDetalles.style.animation = 'fadeInUp 0.4s ease-out';
+            } else {
+                seccionDetalles.style.display = 'none';
+            }
         }
+
+        console.log(`🔄 Secciones actualizadas para tipo: ${tipoFunko}`);
     }
 
     /**
