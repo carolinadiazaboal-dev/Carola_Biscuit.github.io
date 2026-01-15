@@ -33,17 +33,17 @@
                 
                 <div class="form-group">
                     <label for="nombre">✍🏻 Nombre del Cliente *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente" autocomplete="name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="telefono">Teléfono *</label>
-                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX">
+                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX" inputmode="tel" autocomplete="tel">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email (opcional)</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com">
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" inputmode="email" autocomplete="email">
                 </div>
             </fieldset>
 
@@ -70,7 +70,7 @@
 
                 <div class="form-group">
                     <label for="nombrePersonaje">✍🏻 Nombre del Personaje *</label>
-                    <input type="text" id="nombrePersonaje" name="nombrePersonaje" placeholder="Ej: Harry Potter, Elsa, Batman...">
+                    <input type="text" id="nombrePersonaje" name="nombrePersonaje" placeholder="Ej: Harry Potter, Elsa, Batman..." autocomplete="off">
                 </div>
             </fieldset>
 
@@ -80,7 +80,7 @@
 
                 <div class="form-group">
                     <label for="nombreCaja">✍🏻 ¿Qué nombre deseas que lleve la caja? (opcional)</label>
-                    <input type="text" id="nombreCaja" name="nombreCaja" placeholder="Ej: Maikel & Carolina...">
+                    <input type="text" id="nombreCaja" name="nombreCaja" placeholder="Ej: Maikel & Carolina..." autocomplete="off">
                     <small>Este nombre será personalizado en la caja del Funko Pop</small>
                 </div>
             </fieldset>
@@ -112,7 +112,7 @@
 
                 <div class="form-group">
                     <label for="vestuario">Descripción completa de la ropa que desee que lleve su funko pop (colores, tipo de prenda, accesorios del vestuario, etc.) *</label>
-                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder="Describe detalladamente cada prenda, colores, accesorios de vestuario&#10;Ej: Camiseta blanca, pantalón azul oscuro, cinturón negro..."></textarea>
+                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder="Describe detalladamente cada prenda, colores, accesorios de vestuario&#10;Ej: Camiseta blanca, pantalón azul oscuro, cinturón negro..." autocomplete="off"></textarea>
                 </div>
             </fieldset>
 
@@ -122,7 +122,7 @@
 
                 <div class="form-group">
                     <label for="accesorios">¿Quieres incluir accesorios? (gafas, gorro, cadenas, flores, etc.)</label>
-                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..."></textarea>
+                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..." autocomplete="off"></textarea>
                 </div>
             </fieldset>
 
@@ -132,7 +132,7 @@
 
                 <div class="form-group">
                     <label for="colorCabello">Color y largo del cabello *</label>
-                    <textarea id="colorCabello" name="colorCabello" rows="4" required placeholder="Describe el color, largo y detalles específicos&#10;Ej: Negro largo con flequillo, Rubio corto ondulado, Castaño recogido en cola alta..."></textarea>
+                    <textarea id="colorCabello" name="colorCabello" rows="4" required placeholder="Describe el color, largo y detalles específicos&#10;Ej: Negro largo con flequillo, Rubio corto ondulado, Castaño recogido en cola alta..." autocomplete="off"></textarea>
                     <small>Incluye: color, largo, si está suelto/recogido, accesorios, etc.</small>
                 </div>
             </fieldset>
