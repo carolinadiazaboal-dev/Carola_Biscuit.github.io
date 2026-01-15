@@ -394,6 +394,52 @@ body::before {
     min-height: 24px;
 }
 
+/* Radio buttons */
+.form-group.checkbox input[type="radio"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+    margin-top: 0px;
+    flex-shrink: 0;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+/* Indicador visual cuando el radio/checkbox está seleccionado */
+.form-group.checkbox:has(input[type="radio"]:checked),
+.form-group.checkbox:has(input[type="checkbox"]:checked) {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.18) 0%, rgba(255, 179, 217, 0.12) 100%);
+    border-color: var(--color-primary);
+    border-width: 3px;
+    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.25);
+}
+
+/* Icono de check visible en la opción seleccionada */
+.form-group.checkbox:has(input[type="radio"]:checked)::before,
+.form-group.checkbox:has(input[type="checkbox"]:checked)::before {
+    content: '✓';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-weight: bold;
+    animation: checkmark 0.3s ease;
+}
+
+@keyframes checkmark {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
 .form-group.checkbox label {
     margin: 0;
     cursor: pointer;
