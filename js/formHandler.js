@@ -38,12 +38,18 @@ class FormHandler {
      * Valida que los campos requeridos estén completo
      */
     validar() {
+        // Validar tipo de funko primero
         const tipoFunkoElement = document.querySelector('input[name="tipoFunko"]:checked');
-        const tipoFunko = tipoFunkoElement ? tipoFunkoElement.value : '';
+        if (!tipoFunkoElement) {
+            alert('⚠️ Por favor completa: Tipo de Funko *');
+            document.querySelector('.funko-type-wrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+        }
+        
+        const tipoFunko = tipoFunkoElement.value;
         
         // Campos obligatorios para todos
         const camposRequeridos = [
-            { id: 'tipoFunko', nombre: 'Tipo de Funko' },
             { id: 'nombre', nombre: 'Nombre del Cliente' },
             { id: 'telefono', nombre: 'Teléfono' },
             { id: 'fechaEntrega', nombre: 'Fecha de Entrega' }
@@ -82,6 +88,9 @@ class FormHandler {
      * Obtiene los datos del formulario como objeto
      */
     obtenerDatos() {
+        const tipoFunkoSeleccionado = document.querySelector('input[name="tipoFunko"]:checked');
+        const tipoFunko = tipoFunkoSeleccionado ? tipoFunkoSeleccionado.value : '';
+        
         const colorOjosSeleccionado = document.querySelector('input[name="colorOjos"]:checked');
         let colorOjos = colorOjosSeleccionado ? colorOjosSeleccionado.value : '';
         
@@ -95,7 +104,7 @@ class FormHandler {
         let tipoEntrega = tipoEntregaSeleccionado ? tipoEntregaSeleccionado.value : 'recogida';
         
         return {
-            tipoFunko: this.campos.tipoFunko.value,
+            tipoFunko: tipoFunko,
             nombrePersonaje: this.campos.nombrePersonaje.value.trim(),
             nombre: this.campos.nombre.value.trim(),
             telefono: this.campos.telefono.value.trim(),
