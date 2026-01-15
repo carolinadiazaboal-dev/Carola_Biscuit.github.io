@@ -27,6 +27,26 @@
 
         <!-- Formulario -->
         <form id="pedidoForm" class="formulario">
+            <!-- Sección 1: Datos del Cliente -->
+            <fieldset class="seccion">
+                <legend>👤 Datos del Cliente</legend>
+                
+                <div class="form-group">
+                    <label for="nombre">✍🏻 Nombre del Cliente *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (opcional)</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com">
+                </div>
+            </fieldset>
+
             <!-- Sección 0: Tipo de Funko -->
             <fieldset class="seccion">
                 <legend>🎭 Tipo de Funko Pop</legend>
@@ -51,26 +71,6 @@
                 <div class="form-group">
                     <label for="nombrePersonaje">✍🏻 Nombre del Personaje *</label>
                     <input type="text" id="nombrePersonaje" name="nombrePersonaje" placeholder="Ej: Harry Potter, Elsa, Batman...">
-                </div>
-            </fieldset>
-
-            <!-- Sección 1: Datos del Cliente -->
-            <fieldset class="seccion">
-                <legend>👤 Datos del Cliente</legend>
-                
-                <div class="form-group">
-                    <label for="nombre">✍🏻 Nombre del Cliente *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente">
-                </div>
-
-                <div class="form-group">
-                    <label for="telefono">Teléfono *</label>
-                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email (opcional)</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com">
                 </div>
             </fieldset>
 
@@ -235,7 +235,22 @@
                 </div>
             </fieldset>
 
-            <!-- Sección 8: Nota Importante -->
+            <!-- Sección 8: Referencias Visuales -->
+            <div class="referencias-visuales">
+                <h3 class="referencias-titulo"><span>📸</span> Referencias visuales</h3>
+                <div class="referencias-divider"></div>
+                <div class="referencias-card">
+                    <p class="referencias-texto">Cuando se abra WhatsApp, adjunta tus fotos de referencia (rostro, cabello, vestuario y zapatos) en el chat.</p>
+                    <ul class="referencias-lista">
+                        <li>✓ 1-3 fotos del rostro y cabello</li>
+                        <li>✓ 1 foto del vestuario (si aplica)</li>
+                        <li>✓ 1 foto de accesorios (si aplica)</li>
+                        <li>✓ 1 foto de los zapatos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 9: Nota Importante -->
             <fieldset class="seccion">
                 <legend>📌 Nota Importante</legend>
 

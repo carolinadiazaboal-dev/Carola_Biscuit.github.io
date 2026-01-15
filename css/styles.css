@@ -490,6 +490,73 @@ body::before {
     margin-bottom: 0;
 }
 
+/* Referencias Visuales */
+.referencias-visuales {
+    margin-bottom: 2rem;
+}
+
+.referencias-titulo {
+    font-size: 1.15rem;
+    color: var(--color-text);
+    font-weight: 700;
+    margin-bottom: 1.3rem;
+    padding: 0 0 0.5rem 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    border-bottom: 3px solid var(--color-primary);
+    position: relative;
+    margin-top: 0;
+}
+
+.referencias-divider {
+    height: 1px;
+    width: 100%;
+    background: rgba(255, 105, 180, 0.2);
+    margin-bottom: 1.5rem;
+}
+
+.referencias-card {
+    border-radius: 16px;
+    border: 2px solid rgba(255, 105, 180, 0.3);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.08) 0%, rgba(255, 179, 217, 0.04) 100%);
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(255, 105, 180, 0.08);
+    transition: var(--transition);
+}
+
+.referencias-card:hover {
+    border-color: rgba(255, 105, 180, 0.4);
+    box-shadow: 0 12px 32px rgba(255, 105, 180, 0.12);
+}
+
+.referencias-texto {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.referencias-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.referencias-lista li {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1.5;
+}
+
 /* Button Mobile */
 .button-group {
     margin-top: 2.5rem;
