@@ -7,6 +7,7 @@
     <link rel="icon" type="image/jpeg" href="img/favicon.jpg">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/modern-ui.css">
 </head>
 <body>
     <div class="container">
@@ -52,16 +53,71 @@
             <fieldset class="seccion">
                 <legend>🎭 Tipo de Funko Pop</legend>
 
-                <div class="form-group has-floating-label">
-                    <select id="tipoFunko" name="tipoFunko" required>
-                        <option value="">-- Selecciona una opción --</option>
-                        <option value="personalizado">💗 Funko Personalizado SIMPLE</option>
-                        <option value="personalizado-detalles">🧜🏻‍♀ Funko Personalizado + DETALLES</option>
-                        <option value="pareja">👩🏻‍❤‍👨🏼 Funko Pareja Personalizadas</option>
-                        <option value="pareja-detalles">👩🏻‍❤‍👨🏼 Funko Pareja Personalizadas + DETALLES</option>
-                        <option value="personaje">🧚🏻‍♀ Funko de Personaje</option>
-                    </select>
-                    <label for="tipoFunko">🎭 ¿Qué tipo de Funko deseas? *</label>
+                <div class="funko-type-wrapper">
+                    <!-- Header con indicador de selección -->
+                    <div class="funko-type-header" onclick="this.parentElement.querySelector('.funko-type-grid').classList.toggle('expanded')">
+                        <div class="funko-type-selected">
+                            <span class="funko-type-selected-icon">🎭</span>
+                            <span class="funko-type-selected-text">Selecciona un tipo de Funko</span>
+                        </div>
+                        <div class="funko-type-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="funko-type-grid expanded">
+                        <label class="funko-type-card">
+                            <input type="radio" name="tipoFunko" value="personalizado" required>
+                            <div class="funko-type-content">
+                                <span class="funko-type-icon">💗</span>
+                                <span class="funko-type-title">Funko Personalizado</span>
+                                <span class="funko-type-subtitle">SIMPLE</span>
+                            </div>
+                            <div class="funko-type-checkmark">✓</div>
+                        </label>
+
+                    <label class="funko-type-card">
+                        <input type="radio" name="tipoFunko" value="personalizado-detalles" required>
+                        <div class="funko-type-content">
+                            <span class="funko-type-icon">🧜🏻‍♀</span>
+                            <span class="funko-type-title">Funko Personalizado</span>
+                            <span class="funko-type-subtitle">+ DETALLES</span>
+                        </div>
+                        <div class="funko-type-checkmark">✓</div>
+                    </label>
+
+                    <label class="funko-type-card">
+                        <input type="radio" name="tipoFunko" value="pareja" required>
+                        <div class="funko-type-content">
+                            <span class="funko-type-icon">👩🏻‍❤‍👨🏼</span>
+                            <span class="funko-type-title">Funko Pareja</span>
+                            <span class="funko-type-subtitle">Personalizadas</span>
+                        </div>
+                        <div class="funko-type-checkmark">✓</div>
+                    </label>
+
+                    <label class="funko-type-card">
+                        <input type="radio" name="tipoFunko" value="pareja-detalles" required>
+                        <div class="funko-type-content">
+                            <span class="funko-type-icon">👩🏻‍❤‍👨🏼</span>
+                            <span class="funko-type-title">Funko Pareja</span>
+                            <span class="funko-type-subtitle">+ DETALLES</span>
+                        </div>
+                        <div class="funko-type-checkmark">✓</div>
+                    </label>
+
+                    <label class="funko-type-card">
+                        <input type="radio" name="tipoFunko" value="personaje" required>
+                        <div class="funko-type-content">
+                            <span class="funko-type-icon">🧚🏻‍♀</span>
+                            <span class="funko-type-title">Funko de</span>
+                            <span class="funko-type-subtitle">Personaje</span>
+                        </div>
+                        <div class="funko-type-checkmark">✓</div>
+                    </label>
+                    </div>
                 </div>
             </fieldset>
 
@@ -292,6 +348,7 @@
     <script src="js/whatsappIntegration.js"></script>
     <script src="js/particles.js"></script>
     <script src="js/rippleEffect.js"></script>
+    <script src="js/funkoTypeSelector.js"></script>
     <script src="js/improvements.js"></script>
     <script src="js/main.js"></script>
 </body>

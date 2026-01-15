@@ -13,7 +13,7 @@ class FormHandler {
      */
     obtenerCampos() {
         return {
-            tipoFunko: document.getElementById('tipoFunko'),
+            tipoFunko: document.querySelector('input[name="tipoFunko"]:checked'),
             nombrePersonaje: document.getElementById('nombrePersonaje'),
             nombre: document.getElementById('nombre'),
             telefono: document.getElementById('telefono'),
@@ -38,7 +38,8 @@ class FormHandler {
      * Valida que los campos requeridos estén completo
      */
     validar() {
-        const tipoFunko = this.campos.tipoFunko.value;
+        const tipoFunkoElement = document.querySelector('input[name="tipoFunko"]:checked');
+        const tipoFunko = tipoFunkoElement ? tipoFunkoElement.value : '';
         
         // Campos obligatorios para todos
         const camposRequeridos = [
@@ -131,7 +132,8 @@ class FormHandler {
      * Muestra u oculta campos según el tipo de funko seleccionado
      */
     mostrarOcultarCamposCondicionales() {
-        const tipoFunko = this.campos.tipoFunko.value;
+        const tipoFunkoElement = document.querySelector('input[name="tipoFunko"]:checked');
+        const tipoFunko = tipoFunkoElement ? tipoFunkoElement.value : '';
         const seccionPersonaje = document.getElementById('seccionPersonaje');
         const seccionDetalles = document.getElementById('seccionDetalles');
         const seccionColorPiel = document.getElementById('seccionColorPiel');
@@ -199,9 +201,14 @@ class FormHandler {
 // Crear instancia global del manejador de formulario
 const formHandler = new FormHandler('pedidoForm');
 
-// Manejar cambios en el dropdown de tipo de funko
-document.getElementById('tipoFunko').addEventListener('change', () => {
-    formHandler.mostrarOcultarCamposCondicionales();
+// Manejar cambios en los radio buttons de tipo de funko
+document.addEventListener('DOMContentLoaded', () => {
+    const tipoFunkoRadios = document.querySelectorAll('input[name="tipoFunko"]');
+    tipoFunkoRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            formHandler.mostrarOcultarCamposCondicionales();
+        });
+    });
 });
 
 // Manejar cambios en el tipo de entrega (recogida o domicilio)
