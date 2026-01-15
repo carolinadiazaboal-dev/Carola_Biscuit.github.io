@@ -1,0 +1,326 @@
+/**
+ * animations.css - Animaciones y Efectos Visuales Pro
+ * Mejoras visuales impresionantes para mobile-first
+ */
+
+/* ========== GLOW EFFECTS ========== */
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 105, 180, 0.3),
+            0 0 30px rgba(255, 105, 180, 0.2),
+            0 0 40px rgba(255, 105, 180, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 105, 180, 0.5),
+            0 0 50px rgba(255, 105, 180, 0.3),
+            0 0 70px rgba(255, 105, 180, 0.2);
+    }
+}
+
+/* Efecto glow en inputs al focus */
+.form-group.has-floating-label input:focus,
+.form-group.has-floating-label textarea:focus,
+.form-group.has-floating-label select:focus {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ========== GRADIENT ANIMATIONS ========== */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Aplicar gradiente animado a botones */
+.btn-enviar {
+    background: linear-gradient(
+        135deg, 
+        var(--color-primary) 0%, 
+        var(--color-primary-dark) 25%,
+        var(--color-primary) 50%,
+        var(--color-primary-dark) 75%,
+        var(--color-primary) 100%
+    );
+    background-size: 300% 300%;
+    animation: gradient-shift 4s ease infinite;
+}
+
+/* ========== SHIMMER EFFECT ========== */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%);
+    }
+}
+
+.seccion::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 40%,
+        rgba(255, 105, 180, 0.1) 50%,
+        transparent 60%
+    );
+    transform: translateX(-100%) translateY(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+
+.seccion:hover::after {
+    animation: shimmer 1.5s ease;
+}
+
+/* ========== SMOOTH ELEVATIONS ========== */
+.card-elevation {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-elevation:hover {
+    transform: translateY(-4px) scale(1.01);
+}
+
+/* Aplicar a todas las secciones */
+.seccion {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.seccion:hover {
+    transform: translateY(-3px);
+}
+
+/* ========== STAGGER ANIMATIONS ========== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.seccion {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.seccion:nth-child(1) { animation-delay: 0.1s; }
+.seccion:nth-child(2) { animation-delay: 0.15s; }
+.seccion:nth-child(3) { animation-delay: 0.2s; }
+.seccion:nth-child(4) { animation-delay: 0.25s; }
+.seccion:nth-child(5) { animation-delay: 0.3s; }
+.seccion:nth-child(6) { animation-delay: 0.35s; }
+.seccion:nth-child(7) { animation-delay: 0.4s; }
+.seccion:nth-child(8) { animation-delay: 0.45s; }
+
+/* ========== ICON ANIMATIONS ========== */
+@keyframes icon-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+legend:hover {
+    animation: icon-bounce 0.5s ease;
+}
+
+/* ========== CHECKBOX GLOW EFFECT ========== */
+.form-group.checkbox:has(input[type="radio"]:checked),
+.form-group.checkbox:has(input[type="checkbox"]:checked) {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ========== INPUT UNDERLINE ANIMATION ========== */
+.form-group.has-floating-label input,
+.form-group.has-floating-label textarea,
+.form-group.has-floating-label select {
+    position: relative;
+}
+
+.form-group.has-floating-label::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.form-group.has-floating-label:focus-within::after {
+    width: 100%;
+}
+
+/* ========== MICRO INTERACTIONS ========== */
+.btn-enviar:active {
+    transform: scale(0.97);
+}
+
+.resumen-toggle:active {
+    transform: scale(0.9);
+}
+
+.form-group.checkbox:active {
+    transform: scale(0.98);
+}
+
+/* ========== SPARKLE EFFECT ========== */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
+}
+
+.resumen-counter::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 0.8rem;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+/* ========== PROGRESS INDICATORS ========== */
+@keyframes progress-glow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.3);
+    }
+}
+
+/* ========== HOVER GLOW ON ELEMENTS ========== */
+.logo-wrapper:hover {
+    animation: glow-pulse 1s ease-in-out;
+}
+
+/* ========== FLOATING LABELS ENHANCED ========== */
+@keyframes label-float {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-1.8rem);
+    }
+}
+
+/* ========== BUTTON PRESS FEEDBACK ========== */
+@keyframes button-press {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn-enviar:active,
+.resumen-toggle:active {
+    animation: button-press 0.3s ease;
+}
+
+/* ========== COLOR PULSE ========== */
+@keyframes color-pulse {
+    0%, 100% {
+        border-color: rgba(255, 105, 180, 0.3);
+    }
+    50% {
+        border-color: rgba(255, 105, 180, 0.6);
+    }
+}
+
+.seccion:focus-within {
+    animation: color-pulse 2s ease-in-out infinite;
+}
+
+/* ========== SMOOTH SCROLL REVEAL ========== */
+@keyframes scroll-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== TEXT GRADIENT ========== */
+.header h1 {
+    background: linear-gradient(135deg, #000000 0%, #ff69b4 50%, #ff1493 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 5s ease infinite;
+}
+
+/* ========== Referencias CARD ANIMATION ========== */
+@keyframes card-float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.referencias-card {
+    animation: card-float 3s ease-in-out infinite;
+}
+
+.referencias-card:hover {
+    animation: card-float 1.5s ease-in-out infinite, glow-pulse 2s ease-in-out infinite;
+}
+
+/* ========== MOBILE OPTIMIZATIONS ========== */
+@media (max-width: 768px) {
+    /* Reducir intensidad de animaciones en móvil para mejor performance */
+    .seccion {
+        animation-duration: 0.4s;
+    }
+    
+    @keyframes gentle-glow {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
+        }
+        50% {
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+        }
+    }
+    
+    .form-group.has-floating-label input:focus,
+    .form-group.has-floating-label textarea:focus,
+    .form-group.has-floating-label select:focus {
+        animation: gentle-glow 2s ease-in-out infinite;
+    }
+}
+
+/* ========== PERFORMANCE OPTIMIZATIONS ========== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -6,6 +6,7 @@
     <title>Carola Biscuit - Pedido de Funko Pop Personalizado</title>
     <link rel="icon" type="image/jpeg" href="img/favicon.jpg">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
     <div class="container">
@@ -31,19 +32,19 @@
             <fieldset class="seccion">
                 <legend>👤 Datos del Cliente</legend>
                 
-                <div class="form-group">
+                <div class="form-group has-floating-label">
+                    <input type="text" id="nombre" name="nombre" placeholder="" autocomplete="name" required>
                     <label for="nombre">✍🏻 Nombre del Cliente *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Cliente" autocomplete="name" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="telefono">Teléfono *</label>
-                    <input type="tel" id="telefono" name="telefono" required placeholder="+53 5 XXXXXXX" inputmode="tel" autocomplete="tel">
+                <div class="form-group has-floating-label">
+                    <input type="tel" id="telefono" name="telefono" required placeholder="" inputmode="tel" autocomplete="tel">
+                    <label for="telefono">📱 Teléfono *</label>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email (opcional)</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com" inputmode="email" autocomplete="email">
+                <div class="form-group has-floating-label">
+                    <input type="email" id="email" name="email" placeholder="" inputmode="email" autocomplete="email">
+                    <label for="email">📧 Email (opcional)</label>
                 </div>
             </fieldset>
 
@@ -51,8 +52,7 @@
             <fieldset class="seccion">
                 <legend>🎭 Tipo de Funko Pop</legend>
 
-                <div class="form-group">
-                    <label for="tipoFunko">¿Qué tipo de Funko deseas? *</label>
+                <div class="form-group has-floating-label">
                     <select id="tipoFunko" name="tipoFunko" required>
                         <option value="">-- Selecciona una opción --</option>
                         <option value="personalizado">💗 Funko Personalizado SIMPLE</option>
@@ -61,6 +61,7 @@
                         <option value="pareja-detalles">👩🏻‍❤‍👨🏼 Funko Pareja Personalizadas + DETALLES</option>
                         <option value="personaje">🧚🏻‍♀ Funko de Personaje</option>
                     </select>
+                    <label for="tipoFunko">🎭 ¿Qué tipo de Funko deseas? *</label>
                 </div>
             </fieldset>
 
@@ -68,9 +69,10 @@
             <fieldset class="seccion" id="seccionPersonaje" style="display: none;">
                 <legend>🎬 Personaje</legend>
 
-                <div class="form-group">
+                <div class="form-group has-floating-label">
+                    <input type="text" id="nombrePersonaje" name="nombrePersonaje" placeholder=" " autocomplete="off">
                     <label for="nombrePersonaje">✍🏻 Nombre del Personaje *</label>
-                    <input type="text" id="nombrePersonaje" name="nombrePersonaje" placeholder="Ej: Harry Potter, Elsa, Batman..." autocomplete="off">
+                    <small style="margin-top: 0.5rem; display: block;">Ej: Harry Potter, Elsa, Batman...</small>
                 </div>
             </fieldset>
 
@@ -78,10 +80,10 @@
             <fieldset class="seccion">
                 <legend>📦 Nombre para la Caja del Funko</legend>
 
-                <div class="form-group">
+                <div class="form-group has-floating-label">
+                    <input type="text" id="nombreCaja" name="nombreCaja" placeholder=" " autocomplete="off">
                     <label for="nombreCaja">✍🏻 ¿Qué nombre deseas que lleve la caja? (opcional)</label>
-                    <input type="text" id="nombreCaja" name="nombreCaja" placeholder="Ej: Maikel & Carolina..." autocomplete="off">
-                    <small>Este nombre será personalizado en la caja del Funko Pop</small>
+                    <small style="margin-top: 0.5rem; display: block;">Este nombre será personalizado en la caja del Funko Pop</small>
                 </div>
             </fieldset>
 
@@ -89,10 +91,10 @@
             <fieldset class="seccion">
                 <legend>📅 Fecha de Entrega</legend>
 
-                <div class="form-group">
+                <div class="form-group has-floating-label">
+                    <input type="date" id="fechaEntrega" name="fechaEntrega" required placeholder=" ">
                     <label for="fechaEntrega">📅 ¿Cuándo necesitas tu Funko? *</label>
-                    <input type="date" id="fechaEntrega" name="fechaEntrega" required>
-                    <small id="textoFecha">Selecciona el tipo de pedido para ver el mínimo de días</small>
+                    <small id="textoFecha" style="margin-top: 0.5rem; display: block;">Selecciona el tipo de pedido para ver el mínimo de días</small>
                 </div>
 
                 <div class="form-group checkbox">
@@ -110,9 +112,10 @@
             <fieldset class="seccion">
                 <legend>👗 Vestuario</legend>
 
-                <div class="form-group">
-                    <label for="vestuario">Descripción completa de la ropa que desee que lleve su funko pop (colores, tipo de prenda, accesorios del vestuario, etc.) *</label>
-                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder="Describe detalladamente cada prenda, colores, accesorios de vestuario&#10;Ej: Camiseta blanca, pantalón azul oscuro, cinturón negro..." autocomplete="off"></textarea>
+                <div class="form-group has-floating-label">
+                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder=" " autocomplete="off"></textarea>
+                    <label for="vestuario">👔 Descripción completa de la ropa *</label>
+                    <small style="margin-top: 0.5rem; display: block;">Describe detalladamente cada prenda, colores, accesorios del vestuario</small>
                 </div>
             </fieldset>
 
@@ -120,9 +123,10 @@
             <fieldset class="seccion">
                 <legend>🌸 Accesorios</legend>
 
-                <div class="form-group">
-                    <label for="accesorios">¿Quieres incluir accesorios? (gafas, gorro, cadenas, flores, etc.)</label>
-                    <textarea id="accesorios" name="accesorios" rows="3" placeholder="Describe los accesorios que deseas&#10;Ej: Gafas de sol, collar dorado, gorro de lana, flores en el cabello..." autocomplete="off"></textarea>
+                <div class="form-group has-floating-label">
+                    <textarea id="accesorios" name="accesorios" rows="3" placeholder=" " autocomplete="off"></textarea>
+                    <label for="accesorios">👓 ¿Quieres incluir accesorios?</label>
+                    <small style="margin-top: 0.5rem; display: block;">Gafas, gorro, cadenas, flores, etc.</small>
                 </div>
             </fieldset>
 
@@ -130,10 +134,10 @@
             <fieldset class="seccion">
                 <legend>💇‍♀ Cabello</legend>
 
-                <div class="form-group">
-                    <label for="colorCabello">Color y largo del cabello *</label>
-                    <textarea id="colorCabello" name="colorCabello" rows="4" required placeholder="Describe el color, largo y detalles específicos&#10;Ej: Negro largo con flequillo, Rubio corto ondulado, Castaño recogido en cola alta..." autocomplete="off"></textarea>
-                    <small>Incluye: color, largo, si está suelto/recogido, accesorios, etc.</small>
+                <div class="form-group has-floating-label">
+                    <textarea id="colorCabello" name="colorCabello" rows="4" required placeholder=" " autocomplete="off"></textarea>
+                    <label for="colorCabello">💇 Color y largo del cabello *</label>
+                    <small style="margin-top: 0.5rem; display: block;">Incluye: color, largo, si está suelto/recogido, accesorios, etc.</small>
                 </div>
             </fieldset>
 
@@ -286,6 +290,9 @@
     <script src="js/config.js"></script>
     <script src="js/formHandler.js"></script>
     <script src="js/whatsappIntegration.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/rippleEffect.js"></script>
+    <script src="js/improvements.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
