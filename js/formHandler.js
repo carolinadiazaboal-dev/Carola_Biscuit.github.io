@@ -1,204 +1,256 @@
 /**
- * formHandler.js - Manejo del formulario y validación
+ * formHandler.js - Campos condicionales, validación, progreso y datos del formulario
  */
+
+const TIPOS_PAREJA = ['pareja', 'pareja-detalles'];
+const TIPOS_CON_DETALLES = ['personalizado-detalles', 'pareja-detalles', 'personaje'];
+
+// Radios de color → [sección del texto personalizado, input del texto personalizado]
+const COLORES_PERSONALIZABLES = {
+    colorPiel: ['seccionPielPersonalizada', 'pielPersonalizadaTexto'],
+    colorOjos: ['seccionOjoPersonalizado', 'ojoPersonalizadoTexto']
+};
 
 class FormHandler {
     constructor(formId) {
         this.form = document.getElementById(formId);
-        this.campos = this.obtenerCampos();
+        this.crearPersona2();
+
+        this.form.addEventListener('change', (e) => this.alCambiar(e));
+        ['input', 'change'].forEach(evento => this.form.addEventListener(evento, (e) => {
+            this.limpiarError(e.target);
+            this.actualizarProgreso();
+        }));
+
+        this.actualizarSecciones();
+    }
+
+    campo(id) { return document.getElementById(id); }
+    texto(id) { const el = this.campo(id); return el ? el.value.trim() : ''; }
+
+    valorRadio(name) {
+        const radio = this.form.querySelector(`input[name="${name}"]:checked`);
+        return radio ? radio.value : '';
+    }
+
+    get tipoFunko() { return this.valorRadio('tipoFunko'); }
+    get esPareja() { return TIPOS_PAREJA.includes(this.tipoFunko); }
+
+    mostrar(id, visible) {
+        const el = this.campo(id);
+        if (el) el.hidden = !visible;
     }
 
     /**
-     * Obtiene referencias a todos los campos del formulario
+     * Duplica el bloque de "Persona 1" para los Funko pareja.
+     * Los ids, names y referencias de la copia llevan el sufijo _2.
      */
-    obtenerCampos() {
-        return {
-            tipoFunko: document.querySelector('input[name="tipoFunko"]:checked'),
-            nombrePersonaje: document.getElementById('nombrePersonaje'),
-            nombre: document.getElementById('nombre'),
-            telefono: document.getElementById('telefono'),
-            email: document.getElementById('email'),
-            nombreCaja: document.getElementById('nombreCaja'),
-            fechaEntrega: document.getElementById('fechaEntrega'),
-            tipoPedido: document.querySelector('input[name="tipoPedido"]:checked'),
-            tipoEntrega: document.querySelector('input[name="tipoEntrega"]:checked'),
-            direccionDomicilio: document.getElementById('direccionDomicilio'),
-            vestuario: document.getElementById('vestuario'),
-            colorCabello: document.getElementById('colorCabello'),
-            colorPiel: document.getElementById('colorPiel'),
-            pielPersonalizadaTexto: document.getElementById('pielPersonalizadaTexto'),
-            colorOjos: document.getElementById('colorOjos'),
-            ojoPersonalizadoTexto: document.getElementById('ojoPersonalizadoTexto'),
-            accesorios: document.getElementById('accesorios'),
-            detallesAdicionales: document.getElementById('detallesAdicionales')
-        };
+    crearPersona2() {
+        const persona1 = this.campo('persona1');
+        const persona2 = persona1.cloneNode(true);
+        persona2.id = 'persona2';
+        persona2.querySelectorAll('[id]').forEach(el => { el.id += '_2'; });
+        persona2.querySelectorAll('[for]').forEach(el => { el.htmlFor += '_2'; });
+        persona2.querySelectorAll('[name]').forEach(el => { el.name += '_2'; });
+        persona2.querySelectorAll('[aria-labelledby]').forEach(el => {
+            el.setAttribute('aria-labelledby', el.getAttribute('aria-labelledby') + '_2');
+        });
+        persona2.querySelector('.persona-titulo').textContent = '👤 Persona 2';
+        persona1.after(persona2);
     }
 
     /**
-     * Valida que los campos requeridos estén completo
+     * Muestra u oculta campos según lo que se elige
+     */
+    alCambiar(e) {
+        const { name, value } = e.target;
+        const porUsuario = e.isTrusted; // al restaurar el borrador no movemos el foco
+
+        if (name === 'tipoFunko') this.actualizarSecciones();
+
+        if (name === 'tipoEntrega') {
+            this.mostrar('seccionDireccion', value === 'domicilio');
+            if (value === 'domicilio' && porUsuario) this.campo('direccionDomicilio').focus();
+        }
+
+        const base = name.replace(/_2$/, '');
+        const sufijo = name.slice(base.length);
+        if (COLORES_PERSONALIZABLES[base]) {
+            const [seccion, input] = COLORES_PERSONALIZABLES[base];
+            const personalizado = value === 'personalizado';
+            this.mostrar(seccion + sufijo, personalizado);
+            if (personalizado && porUsuario) this.campo(input + sufijo).focus();
+        }
+    }
+
+    actualizarSecciones() {
+        const tipo = this.tipoFunko;
+        const personaje = tipo === 'personaje';
+
+        this.form.dataset.tipo = tipo;
+        this.form.classList.toggle('es-pareja', this.esPareja);
+        this.mostrar('avisoPareja', this.esPareja);
+        this.mostrar('persona2', this.esPareja);
+        this.mostrar('seccionPersonaje', personaje);
+        this.mostrar('seccionDetalles', TIPOS_CON_DETALLES.includes(tipo));
+        ['', '_2'].forEach(s => {
+            this.mostrar('seccionColorPiel' + s, !personaje);
+            this.mostrar('seccionColorOjos' + s, !personaje);
+        });
+        this.actualizarProgreso();
+    }
+
+    /**
+     * Reglas de validación según el estado actual del formulario.
+     * Las marcadas como opcionales no cuentan para el progreso.
+     */
+    reglas() {
+        const reglas = [];
+        const requerido = (id, msg) => reglas.push({ el: this.campo(id), ok: !!this.texto(id), msg });
+
+        reglas.push({
+            el: this.form.querySelector('.funko-type-wrapper'),
+            ok: !!this.tipoFunko,
+            msg: 'Elige el tipo de Funko'
+        });
+
+        requerido('nombre', 'Escribe tu nombre');
+
+        const digitos = this.texto('telefono').replace(/\D/g, '').length;
+        reglas.push({
+            el: this.campo('telefono'),
+            ok: digitos >= 8,
+            msg: digitos ? 'El teléfono debe tener al menos 8 dígitos' : 'Escribe tu teléfono'
+        });
+
+        const email = this.texto('email');
+        if (email) {
+            reglas.push({
+                el: this.campo('email'),
+                ok: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+                msg: 'El email no parece válido',
+                opcional: true
+            });
+        }
+
+        const fecha = this.campo('fechaEntrega');
+        reglas.push({
+            el: fecha,
+            ok: !!fecha.value && fecha.value >= fecha.min,
+            msg: `La fecha mínima es ${WhatsAppIntegration.formatearFecha(fecha.min)}`
+        });
+
+        if (this.tipoFunko === 'personaje') {
+            requerido('nombrePersonaje', 'Escribe el nombre del personaje');
+        } else {
+            const personas = this.esPareja ? ['', '_2'] : [''];
+            personas.forEach(s => {
+                const quien = this.esPareja ? ` (Persona ${s ? 2 : 1})` : '';
+                requerido('vestuario' + s, 'Describe el vestuario' + quien);
+                requerido('colorCabello' + s, 'Describe el cabello' + quien);
+                if (this.valorRadio('colorPiel' + s) === 'personalizado') {
+                    requerido('pielPersonalizadaTexto' + s, 'Indica el color de piel' + quien);
+                }
+                if (this.valorRadio('colorOjos' + s) === 'personalizado') {
+                    requerido('ojoPersonalizadoTexto' + s, 'Indica el color de ojos' + quien);
+                }
+            });
+        }
+
+        if (this.valorRadio('tipoEntrega') === 'domicilio') {
+            requerido('direccionDomicilio', 'Escribe la dirección de entrega');
+        }
+
+        return reglas;
+    }
+
+    /**
+     * Marca los errores junto a cada campo y lleva al primero
      */
     validar() {
-        // Validar tipo de funko primero
-        const tipoFunkoElement = document.querySelector('input[name="tipoFunko"]:checked');
-        if (!tipoFunkoElement) {
-            alert('⚠️ Por favor completa: Tipo de Funko *');
-            document.querySelector('.funko-type-wrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return false;
-        }
-        
-        const tipoFunko = tipoFunkoElement.value;
-        
-        // Campos obligatorios para todos
-        const camposRequeridos = [
-            { id: 'nombre', nombre: 'Nombre del Cliente' },
-            { id: 'telefono', nombre: 'Teléfono' },
-            { id: 'fechaEntrega', nombre: 'Fecha de Entrega' }
-        ];
+        this.limpiarErrores();
+        const fallos = this.reglas().filter(r => !r.ok);
+        fallos.forEach(f => this.marcarError(f.el, f.msg));
 
-        // Validación especial según tipo de funko
-        if (tipoFunko === 'personaje') {
-            // Para personajes: solo necesita nombre del personaje
-            camposRequeridos.push({ id: 'nombrePersonaje', nombre: 'Nombre del Personaje' });
-        } else {
-            // Para personalizados, personalizado-detalles, pareja y pareja-detalles
-            camposRequeridos.push(
-                { id: 'vestuario', nombre: 'Descripción de Vestuario' },
-                { id: 'colorCabello', nombre: 'Color y largo del cabello' }
-            );
+        if (fallos.length) {
+            const primero = fallos[0].el;
+            primero.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (primero.matches('input, textarea')) primero.focus({ preventScroll: true });
         }
+        return fallos.length === 0;
+    }
 
-        for (const campo of camposRequeridos) {
-            const elemento = this.campos[campo.id];
-            const valor = elemento ? elemento.value.trim() : '';
-            
-            if (!valor) {
-                alert(`⚠️ Por favor completa: ${campo.nombre} *`);
-                if (elemento) {
-                    elemento.focus();
-                    elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                return false;
-            }
-        }
+    marcarError(el, msg) {
+        const grupo = el.closest('.form-group') || el;
+        const error = document.createElement('p');
+        error.className = 'field-error';
+        error.id = `${el.id || 'tipoFunko'}-error`;
+        error.textContent = msg;
+        grupo.classList.add('has-error');
+        grupo.appendChild(error);
+        el.setAttribute('aria-invalid', 'true');
+        el.setAttribute('aria-describedby', error.id);
+    }
 
-        return true;
+    limpiarError(el) {
+        const grupo = el.closest && el.closest('.has-error');
+        if (!grupo) return;
+        grupo.classList.remove('has-error');
+        grupo.querySelector('.field-error')?.remove();
+        grupo.querySelectorAll('[aria-invalid]').forEach(c => {
+            c.removeAttribute('aria-invalid');
+            c.removeAttribute('aria-describedby');
+        });
+    }
+
+    limpiarErrores() {
+        this.form.querySelectorAll('.has-error').forEach(g => this.limpiarError(g));
+    }
+
+    actualizarProgreso() {
+        const reglas = this.reglas().filter(r => !r.opcional);
+        const pct = Math.round(reglas.filter(r => r.ok).length / reglas.length * 100);
+        this.campo('progressFill').style.width = pct + '%';
+        this.campo('progressPercent').textContent = pct;
     }
 
     /**
      * Obtiene los datos del formulario como objeto
      */
     obtenerDatos() {
-        const tipoFunkoSeleccionado = document.querySelector('input[name="tipoFunko"]:checked');
-        const tipoFunko = tipoFunkoSeleccionado ? tipoFunkoSeleccionado.value : '';
-        
-        const colorOjosSeleccionado = document.querySelector('input[name="colorOjos"]:checked');
-        let colorOjos = colorOjosSeleccionado ? colorOjosSeleccionado.value : '';
-        
-        const colorPielSeleccionado = document.querySelector('input[name="colorPiel"]:checked');
-        let colorPiel = colorPielSeleccionado ? colorPielSeleccionado.value : '';
-        
-        const tipoPedidoSeleccionado = document.querySelector('input[name="tipoPedido"]:checked');
-        let tipoPedido = tipoPedidoSeleccionado ? tipoPedidoSeleccionado.value : 'regular';
-        
-        const tipoEntregaSeleccionado = document.querySelector('input[name="tipoEntrega"]:checked');
-        let tipoEntrega = tipoEntregaSeleccionado ? tipoEntregaSeleccionado.value : 'recogida';
-        
+        const tipo = this.tipoFunko;
+        const personaje = tipo === 'personaje';
+        const color = (name, textoId, s) => {
+            if (personaje) return '';
+            const valor = this.valorRadio(name + s);
+            return valor === 'personalizado' ? this.texto(textoId + s) : valor;
+        };
+        const persona = (s) => ({
+            vestuario: this.texto('vestuario' + s),
+            colorCabello: this.texto('colorCabello' + s),
+            accesorios: this.texto('accesorios' + s),
+            colorPiel: color('colorPiel', 'pielPersonalizadaTexto', s),
+            colorOjos: color('colorOjos', 'ojoPersonalizadoTexto', s)
+        });
+        const esExpres = this.valorRadio('tipoPedido') === 'expres';
+        const esDomicilio = this.valorRadio('tipoEntrega') === 'domicilio';
+
         return {
-            tipoFunko: tipoFunko,
-            nombrePersonaje: this.campos.nombrePersonaje.value.trim(),
-            nombre: this.campos.nombre.value.trim(),
-            telefono: this.campos.telefono.value.trim(),
-            email: this.campos.email.value.trim(),
-            nombreCaja: this.campos.nombreCaja.value.trim(),
-            fechaEntrega: this.campos.fechaEntrega.value,
-            tipoPedido: tipoPedido,
-            esExpres: tipoPedido === 'expres',
-            tipoEntrega: tipoEntrega,
-            esDomicilio: tipoEntrega === 'domicilio',
-            esRecogida: tipoEntrega === 'recogida',
-            direccionDomicilio: this.campos.direccionDomicilio.value.trim(),
-            vestuario: this.campos.vestuario.value.trim(),
-            colorCabello: this.campos.colorCabello.value.trim(),
-            colorPiel: colorPiel === 'personalizado' ? this.campos.pielPersonalizadaTexto.value.trim() : colorPiel,
-            colorOjos: colorOjos === 'personalizado' ? this.campos.ojoPersonalizadoTexto.value.trim() : colorOjos,
-            accesorios: this.campos.accesorios.value.trim(),
-            detallesAdicionales: this.campos.detallesAdicionales.value.trim()
+            tipoFunko: tipo,
+            nombrePersonaje: personaje ? this.texto('nombrePersonaje') : '',
+            nombre: this.texto('nombre'),
+            telefono: this.texto('telefono'),
+            email: this.texto('email'),
+            nombreCaja: this.texto('nombreCaja'),
+            fechaEntrega: this.campo('fechaEntrega').value,
+            esExpres,
+            esDomicilio,
+            direccionDomicilio: esDomicilio ? this.texto('direccionDomicilio') : '',
+            personas: this.esPareja ? [persona(''), persona('_2')] : [persona('')],
+            detallesAdicionales: TIPOS_CON_DETALLES.includes(tipo) ? this.texto('detallesAdicionales') : ''
         };
     }
 
-    /**
-     * Reinicia el formulario
-     */
-    reiniciar() {
-        this.form.reset();
-        // Esperar un momento para que el reset se complete
-        setTimeout(() => {
-            this.mostrarOcultarCamposCondicionales();
-        }, 100);
-    }
-
-    /**
-     * Muestra u oculta campos según el tipo de funko seleccionado
-     */
-    mostrarOcultarCamposCondicionales() {
-        const tipoFunkoElement = document.querySelector('input[name="tipoFunko"]:checked');
-        const tipoFunko = tipoFunkoElement ? tipoFunkoElement.value : '';
-        const seccionPersonaje = document.getElementById('seccionPersonaje');
-        const seccionDetalles = document.getElementById('seccionDetalles');
-        const seccionColorPiel = document.getElementById('seccionColorPiel');
-        const seccionColorOjos = document.getElementById('seccionColorOjos');
-        const avisoPareja = document.getElementById('avisoPareja');
-
-        // Verificar que las secciones existan antes de modificarlas
-        if (!seccionPersonaje || !seccionColorPiel || !seccionColorOjos) {
-            console.warn('⚠️ Algunas secciones no se encontraron en el DOM');
-            return;
-        }
-
-        // Mostrar/ocultar aviso de pareja
-        if (avisoPareja) {
-            if (tipoFunko === 'pareja' || tipoFunko === 'pareja-detalles') {
-                avisoPareja.style.display = 'block';
-            } else {
-                avisoPareja.style.display = 'none';
-            }
-        }
-
-        // Mostrar/ocultar sección de personaje
-        if (tipoFunko === 'personaje') {
-            seccionPersonaje.style.display = 'block';
-            seccionPersonaje.style.animation = 'fadeInUp 0.4s ease-out';
-        } else {
-            seccionPersonaje.style.display = 'none';
-        }
-
-        // Mostrar/ocultar sección de color de piel y ojos (no mostrar para personajes)
-        if (tipoFunko === 'personaje') {
-            seccionColorPiel.style.display = 'none';
-            seccionColorOjos.style.display = 'none';
-        } else {
-            seccionColorPiel.style.display = 'block';
-            seccionColorOjos.style.display = 'block';
-            seccionColorPiel.style.animation = 'fadeInUp 0.4s ease-out';
-            seccionColorOjos.style.animation = 'fadeInUp 0.4s ease-out';
-        }
-
-        // Mostrar/ocultar sección de detalles adicionales
-        if (seccionDetalles) {
-            if (tipoFunko === 'personalizado-detalles' || tipoFunko === 'pareja-detalles' || tipoFunko === 'personaje') {
-                seccionDetalles.style.display = 'block';
-                seccionDetalles.style.animation = 'fadeInUp 0.4s ease-out';
-            } else {
-                seccionDetalles.style.display = 'none';
-            }
-        }
-
-        console.log(`🔄 Secciones actualizadas para tipo: ${tipoFunko}`);
-    }
-
-    /**
-     * Agrega un listener al submit del formulario
-     */
     onSubmit(callback) {
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -207,73 +259,4 @@ class FormHandler {
     }
 }
 
-// Crear instancia global del manejador de formulario
 const formHandler = new FormHandler('pedidoForm');
-
-// Manejar cambios en los radio buttons de tipo de funko
-document.addEventListener('DOMContentLoaded', () => {
-    const tipoFunkoRadios = document.querySelectorAll('input[name="tipoFunko"]');
-    tipoFunkoRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            formHandler.mostrarOcultarCamposCondicionales();
-        });
-    });
-});
-
-// Manejar cambios en el tipo de entrega (recogida o domicilio)
-document.addEventListener('DOMContentLoaded', () => {
-    const tipoEntregaRadios = document.querySelectorAll('input[name="tipoEntrega"]');
-    tipoEntregaRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            const seccionDireccion = document.getElementById('seccionDireccion');
-            const inputDireccion = document.getElementById('direccionDomicilio');
-            
-            if (this.value === 'domicilio') {
-                seccionDireccion.style.display = 'block';
-                inputDireccion.focus();
-            } else {
-                seccionDireccion.style.display = 'none';
-                inputDireccion.value = '';
-            }
-        });
-    });
-
-    // Manejar cambios en el selector de color de ojos (mostrar campo personalizado)
-    const colorOjosRadios = document.querySelectorAll('input[name="colorOjos"]');
-    colorOjosRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            const seccionOjoPersonalizado = document.getElementById('seccionOjoPersonalizado');
-            const inputOjoPersonalizado = document.getElementById('ojoPersonalizadoTexto');
-            
-            if (this.value === 'personalizado') {
-                seccionOjoPersonalizado.style.display = 'block';
-                inputOjoPersonalizado.focus();
-            } else {
-                seccionOjoPersonalizado.style.display = 'none';
-                inputOjoPersonalizado.value = '';
-            }
-        });
-    });
-
-    // Manejar cambios en el selector de color de piel (mostrar campo personalizado)
-    const colorPielRadios = document.querySelectorAll('input[name="colorPiel"]');
-    colorPielRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            const seccionPielPersonalizada = document.getElementById('seccionPielPersonalizada');
-            const inputPielPersonalizada = document.getElementById('pielPersonalizadaTexto');
-            
-            if (this.value === 'personalizado') {
-                seccionPielPersonalizada.style.display = 'block';
-                inputPielPersonalizada.focus();
-            } else {
-                seccionPielPersonalizada.style.display = 'none';
-                inputPielPersonalizada.value = '';
-            }
-        });
-    });
-});
-
-// Mostrar/ocultar campos condicionales al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    formHandler.mostrarOcultarCamposCondicionales();
-});

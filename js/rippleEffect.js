@@ -15,7 +15,7 @@ class RippleEffect {
     init() {
         // Seleccionar todos los elementos que tendrán ripple
         const rippleElements = document.querySelectorAll(
-            '.btn-enviar, .resumen-toggle, .resumen-close, .form-group.checkbox, .color-option'
+            '.btn-enviar, .btn-secundario, .form-group.checkbox'
         );
 
         rippleElements.forEach(element => {

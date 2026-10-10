@@ -5,30 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carola Biscuit - Pedido de Funko Pop Personalizado</title>
     <link rel="icon" type="image/jpeg" href="img/favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/modern-ui.css">
 </head>
 <body>
+    <!-- Barra de progreso (la actualiza improvements.js) -->
+    <div class="top-progress" aria-hidden="true"><div id="progressFill"></div></div>
+    <div class="progress-pill" aria-live="polite"><span id="progressPercent">0</span>% completado</div>
+
     <div class="container">
         <!-- Header con Logo -->
         <div class="header">
+            <div class="hero-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="header-content">
                 <div class="logo-container">
                     <div class="logo-wrapper">
                         <img id="logo" src="img/Logo.png" alt="Logo Carola Biscuit" class="logo">
                     </div>
                 </div>
-                <h1>Carola Biscuit</h1>
                 <p class="subtitle">Funkos Pop Personalizados 🩷</p>
-                <div id="avisoPareja" class="aviso-pareja" style="display: none;">
-                    <p>⚠️ <strong>IMPORTANTE:</strong> Todas las características descritas deben ser DOBLES e IDENTIFICATIVAS para cada Funko</p>
+                <h1>Carola Biscuit</h1>
+                <p class="hero-lead">Tu Funko <em>hecho a mano</em>, pieza por pieza. Completa el formulario y recibe tu cotización por WhatsApp.</p>
+                <ul class="hero-chips">
+                    <li>✋ 100% artesanal</li>
+                    <li>🎨 Totalmente personalizado</li>
+                    <li>🚚 Entrega a domicilio</li>
+                </ul>
+                <div id="avisoPareja" class="aviso-pareja" hidden>
+                    <p>💞 <strong>Funko Pareja:</strong> más abajo completarás los datos de cada persona por separado (Persona 1 y Persona 2).</p>
                 </div>
             </div>
         </div>
 
         <!-- Formulario -->
-        <form id="pedidoForm" class="formulario">
+        <form id="pedidoForm" class="formulario" novalidate>
             <!-- Sección 1: Datos del Cliente -->
             <fieldset class="seccion">
                 <legend>👤 Datos del Cliente</legend>
@@ -55,19 +67,19 @@
 
                 <div class="funko-type-wrapper">
                     <!-- Header con indicador de selección -->
-                    <div class="funko-type-header" onclick="this.parentElement.querySelector('.funko-type-grid').classList.toggle('expanded')">
-                        <div class="funko-type-selected">
-                            <span class="funko-type-selected-icon">🎭</span>
+                    <button type="button" class="funko-type-header" aria-expanded="true" aria-controls="funkoTypeGrid">
+                        <span class="funko-type-selected">
+                            <span class="funko-type-selected-icon" aria-hidden="true">🎭</span>
                             <span class="funko-type-selected-text">Selecciona un tipo de Funko</span>
-                        </div>
-                        <div class="funko-type-arrow">
+                        </span>
+                        <span class="funko-type-arrow" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
-                        </div>
-                    </div>
+                        </span>
+                    </button>
 
-                    <div class="funko-type-grid expanded">
+                    <div class="funko-type-grid expanded" id="funkoTypeGrid" role="radiogroup" aria-label="Tipo de Funko">
                         <label class="funko-type-card">
                             <input type="radio" name="tipoFunko" value="personalizado" required>
                             <div class="funko-type-content">
@@ -122,7 +134,7 @@
             </fieldset>
 
             <!-- Sección 0.5: Nombre del Personaje (Solo para Funko de Personaje) -->
-            <fieldset class="seccion" id="seccionPersonaje" style="display: none;">
+            <fieldset class="seccion" id="seccionPersonaje" hidden>
                 <legend>🎬 Personaje</legend>
 
                 <div class="form-group has-floating-label">
@@ -164,13 +176,17 @@
                 </div>
             </fieldset>
 
+            <!-- Datos de la persona (para Funko Pareja, formHandler.js lo duplica como Persona 2) -->
+            <div id="persona1" class="persona-grupo">
+            <h2 class="persona-titulo">👤 Persona 1</h2>
+
             <!-- Sección 3: Vestuario -->
             <fieldset class="seccion">
                 <legend>👗 Vestuario</legend>
 
                 <div class="form-group has-floating-label">
-                    <textarea id="vestuario" name="vestuario" rows="4" required placeholder=" " autocomplete="off"></textarea>
-                    <label for="vestuario">👔 Descripción completa de la ropa *</label>
+                    <textarea id="vestuario" name="vestuario" rows="4" placeholder=" " autocomplete="off"></textarea>
+                    <label for="vestuario">👔 Descripción completa de la ropa <span class="req">*</span></label>
                     <small style="margin-top: 0.5rem; display: block;">Describe detalladamente cada prenda, colores, accesorios del vestuario</small>
                 </div>
             </fieldset>
@@ -191,40 +207,40 @@
                 <legend>💇‍♀ Cabello</legend>
 
                 <div class="form-group has-floating-label">
-                    <textarea id="colorCabello" name="colorCabello" rows="4" required placeholder=" " autocomplete="off"></textarea>
-                    <label for="colorCabello">💇 Color y largo del cabello *</label>
+                    <textarea id="colorCabello" name="colorCabello" rows="4" placeholder=" " autocomplete="off"></textarea>
+                    <label for="colorCabello">💇 Color y largo del cabello <span class="req">*</span></label>
                     <small style="margin-top: 0.5rem; display: block;">Incluye: color, largo, si está suelto/recogido, accesorios, etc.</small>
                 </div>
             </fieldset>
 
             <!-- Sección 4.5: Color de la Piel (No para personajes) -->
-            <fieldset class="seccion" id="seccionColorPiel" style="display: none;">
+            <fieldset class="seccion" id="seccionColorPiel">
                 <legend>🌫️ Color de la Piel</legend>
 
                 <div class="form-group">
-                    <label>Selecciona el color de la piel</label>
-                    <div class="color-palette">
-                        <input type="radio" id="piel1" name="colorPiel" value="Blanco" style="display: none;">
+                    <p class="group-label" id="lblPiel">Selecciona el color de la piel</p>
+                    <div class="color-palette" role="radiogroup" aria-labelledby="lblPiel">
+                        <input type="radio" id="piel1" name="colorPiel" value="Blanco" class="sr-only">
                         <label for="piel1" class="color-option" style="background-color: #FDBCB4;" title="Blanco"></label>
 
-                        <input type="radio" id="piel2" name="colorPiel" value="Trigueño" style="display: none;">
+                        <input type="radio" id="piel2" name="colorPiel" value="Trigueño" class="sr-only">
                         <label for="piel2" class="color-option" style="background-color: #D4A574;" title="Trigueño"></label>
 
-                        <input type="radio" id="piel3" name="colorPiel" value="Mulato" style="display: none;">
+                        <input type="radio" id="piel3" name="colorPiel" value="Mulato" class="sr-only">
                         <label for="piel3" class="color-option" style="background-color: #A0826D;" title="Mulato"></label>
 
-                        <input type="radio" id="piel4" name="colorPiel" value="Moreno" style="display: none;">
+                        <input type="radio" id="piel4" name="colorPiel" value="Moreno" class="sr-only">
                         <label for="piel4" class="color-option" style="background-color: #6D4C41;" title="Moreno"></label>
 
-                        <input type="radio" id="piel5" name="colorPiel" value="Negro" style="display: none;">
+                        <input type="radio" id="piel5" name="colorPiel" value="Negro" class="sr-only">
                         <label for="piel5" class="color-option" style="background-color: #3E2723;" title="Negro"></label>
 
-                        <input type="radio" id="piel6" name="colorPiel" value="personalizado" style="display: none;">
-                        <label for="piel6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado">✏️</label>
+                        <input type="radio" id="piel6" name="colorPiel" value="personalizado" class="sr-only">
+                        <label for="piel6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado"><span aria-hidden="true">✏️</span></label>
                     </div>
                 </div>
 
-                <div class="form-group" id="seccionPielPersonalizada" style="display: none;">
+                <div class="form-group" id="seccionPielPersonalizada" hidden>
                     <label for="pielPersonalizadaTexto">Especifica el color de piel personalizado</label>
                     <input type="text" id="pielPersonalizadaTexto" name="pielPersonalizadaTexto" placeholder="Ej: Rosa pastel, Azul, Verde oliva, etc.">
                 </div>
@@ -235,37 +251,38 @@
                 <legend>👀 Color de Ojos</legend>
 
                 <div class="form-group">
-                    <label>Selecciona el color de los ojos</label>
-                    <div class="color-palette">
-                        <input type="radio" id="ojo1" name="colorOjos" value="Negro" style="display: none;">
+                    <p class="group-label" id="lblOjos">Selecciona el color de los ojos</p>
+                    <div class="color-palette" role="radiogroup" aria-labelledby="lblOjos">
+                        <input type="radio" id="ojo1" name="colorOjos" value="Negro" class="sr-only">
                         <label for="ojo1" class="color-option" style="background-color: #1A1A1A;" title="Negro"></label>
 
-                        <input type="radio" id="ojo2" name="colorOjos" value="Marrón" style="display: none;">
+                        <input type="radio" id="ojo2" name="colorOjos" value="Marrón" class="sr-only">
                         <label for="ojo2" class="color-option" style="background-color: #8B4513;" title="Marrón"></label>
 
-                        <input type="radio" id="ojo3" name="colorOjos" value="Verde" style="display: none;">
+                        <input type="radio" id="ojo3" name="colorOjos" value="Verde" class="sr-only">
                         <label for="ojo3" class="color-option" style="background-color: #2D5016;" title="Verde"></label>
 
-                        <input type="radio" id="ojo4" name="colorOjos" value="Azul" style="display: none;">
+                        <input type="radio" id="ojo4" name="colorOjos" value="Azul" class="sr-only">
                         <label for="ojo4" class="color-option" style="background-color: #003DA5;" title="Azul"></label>
 
-                        <input type="radio" id="ojo5" name="colorOjos" value="Gris" style="display: none;">
+                        <input type="radio" id="ojo5" name="colorOjos" value="Gris" class="sr-only">
                         <label for="ojo5" class="color-option" style="background-color: #808080;" title="Gris"></label>
 
-                        <input type="radio" id="ojo6" name="colorOjos" value="personalizado" style="display: none;">
-                        <label for="ojo6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado">✏️</label>
+                        <input type="radio" id="ojo6" name="colorOjos" value="personalizado" class="sr-only">
+                        <label for="ojo6" class="color-option color-custom" style="background: linear-gradient(135deg, #FF69B4, #FFB6D9); display: flex; align-items: center; justify-content: center; font-size: 24px;" title="Personalizado"><span aria-hidden="true">✏️</span></label>
                     </div>
                     <small>Por defecto los funkos llevan los ojos de color negro</small>
                 </div>
 
-                <div class="form-group" id="seccionOjoPersonalizado" style="display: none;">
+                <div class="form-group" id="seccionOjoPersonalizado" hidden>
                     <label for="ojoPersonalizadoTexto">Especifica el color de ojo personalizado</label>
                     <input type="text" id="ojoPersonalizadoTexto" name="ojoPersonalizadoTexto" placeholder="Ej: Rosa claro, Violeta, Dorado, etc.">
                 </div>
             </fieldset>
+            </div>
 
             <!-- Sección 7: Detalles Adicionales (Solo para opciones con +DETALLES y Personaje) -->
-            <fieldset class="seccion" id="seccionDetalles" style="display: none;">
+            <fieldset class="seccion" id="seccionDetalles" hidden>
                 <legend>🎁 Detalles Adicionales</legend>
 
                 <div class="form-group">
@@ -288,7 +305,7 @@
                     <label for="entregaDomicilio"><strong>🚚 Servicio a domicilio</strong> Proporciona tu dirección</label>
                 </div>
 
-                <div class="form-group" id="seccionDireccion" style="display: none;">
+                <div class="form-group" id="seccionDireccion" hidden>
                     <label for="direccionDomicilio">Dirección de entrega *</label>
                     <textarea id="direccionDomicilio" name="direccionDomicilio" rows="3" placeholder="Calle, número, apartamento, zona&#10;Ej: Calle Principal 123, apartamento 4B, zona 12..."></textarea>
                     <small>Confirmaremos disponibilidad y costo del envío</small>
@@ -342,14 +359,35 @@
         </footer>
     </div>
 
+    <!-- Revisión del pedido antes de enviar -->
+    <dialog id="revision" class="revision" aria-labelledby="revisionTitulo">
+        <div class="revision-paso" data-paso="revisar">
+            <h2 id="revisionTitulo">Revisa tu pedido</h2>
+            <p class="revision-sub">Confirma que todo esté correcto antes de enviarlo por WhatsApp.</p>
+            <dl id="revisionResumen" class="revision-resumen"></dl>
+            <ul id="revisionCostos" class="revision-costos"></ul>
+            <div class="revision-acciones">
+                <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                <button type="button" class="btn-enviar" data-accion="confirmar" autofocus>Confirmar y enviar</button>
+            </div>
+        </div>
+        <div class="revision-paso revision-enviado" data-paso="enviado" hidden>
+            <div class="revision-ok" aria-hidden="true">✓</div>
+            <h2>¡Tu pedido está listo en WhatsApp!</h2>
+            <p class="revision-sub">Envía el mensaje en el chat y adjunta tus fotos de referencia: rostro, cabello, vestuario y zapatos.</p>
+            <div class="revision-acciones">
+                <button type="button" class="btn-secundario" data-accion="reabrir">Abrir WhatsApp de nuevo</button>
+                <button type="button" class="btn-enviar" data-accion="nuevo">Hacer otro pedido</button>
+            </div>
+        </div>
+    </dialog>
+
     <!-- Scripts modulares -->
     <script src="js/config.js"></script>
-    <script src="js/formHandler.js"></script>
     <script src="js/whatsappIntegration.js"></script>
-    <script src="js/particles.js"></script>
+    <script src="js/formHandler.js"></script>
     <script src="js/rippleEffect.js"></script>
     <script src="js/funkoTypeSelector.js"></script>
-    <script src="js/improvements.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

@@ -13,21 +13,11 @@ const CONFIG = {
 
     // Configuración de pedidos
     PEDIDOS: {
-        diasMinimos: 20,
-        diasMaximos: 30,
-        recargExpress: 15, // USD
-        deposito: 5 // USD
+        diasRegular: 30,
+        diasExpres: 15,
+        recargoExpres: 15 // USD
     },
 
-    // Mensajes
-    MENSAJES: {
-        exito: 'Tu pedido ha sido enviado correctamente',
-        error: 'Por favor, completa todos los campos requeridos (*)',
-        errorWhatsApp: 'No se pudo abrir WhatsApp. Intenta nuevamente o contacta directamente.'
-    }
+    // Clave del borrador guardado en el navegador
+    BORRADOR_KEY: 'carola-biscuit-borrador'
 };
-
-// Exportar para uso en otros módulos
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CONFIG;
-}
